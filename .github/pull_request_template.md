@@ -9,6 +9,8 @@
 
 -
 
+closes #ISSUE_NUMBER <!-- put your issue in front of the hashtag -->
+
 ## Test <!-- Things to test -->
 
 - [ ] How_to_test_1
