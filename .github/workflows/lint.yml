@@ -3,7 +3,7 @@ name: Run lint 🧙‍♂️
 on: pull_request
 
 jobs:
-  cypress:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
