@@ -1,18 +1,19 @@
 import React from "react";
-import Link from "next/link";
 import styles from "./linkNavigation.module.scss";
-//import useHash from "@/app/hooks/useHash";
+import useHash from "@/app/hooks/useHash";
 import { NavItem } from "@/app/type/navItem";
-import { useUrlHash } from "@/app/hooks/useUrlHash";
 
 function LinkNavigation({ title, href }: NavItem) {
-  //const hash = useHash();
-  const hash = useUrlHash("");
+  const hash = useHash();
+
   return (
     <li className={styles.link}>
-      <Link href={href} className={hash?.includes(href) ? styles.active : ""}>
+      <a
+        href={href}
+        className={href?.includes(hash || " ") ? styles.active : ""}
+      >
         {title}
-      </Link>
+      </a>
     </li>
   );
 }
