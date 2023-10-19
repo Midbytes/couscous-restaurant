@@ -1,0 +1,10 @@
+schema: https://couscous.up.railway.app/graphql
+documents: "./client/**/*.graphql"
+generates:
+  ./client/generated/graphql.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-query
+    config:
+      fetcher: graphql-request
