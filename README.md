@@ -1,3 +1,5 @@
+[![Test Cypress 👀](https://github.com/Midbytes/couscous-restaurant/actions/workflows/cypress.yml/badge.svg)](https://github.com/Midbytes/couscous-restaurant/actions/workflows/cypress.yml)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
