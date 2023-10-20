@@ -13,4 +13,12 @@ body {
   height: 100%;
   color: var(--text-color);
   margin: 0;
+  h1 {
+    color: var(--main-title-color);
+    margin: 0;
+  }
+  p {
+    color: var(--text-color);
+    margin: 0;
+  }
 }
