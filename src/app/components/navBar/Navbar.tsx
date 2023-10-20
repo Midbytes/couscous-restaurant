@@ -17,13 +17,14 @@ function Navbar() {
         />
         <span>Couscous</span>
       </h1>
-      <nav>
-        <ul className={styles.links}>
+      <nav className={styles.links}>
+        <ul>
           {NAV_ITEM.map((item) => (
             <LinkNavigation {...item} key={item.href} />
           ))}
         </ul>
       </nav>
+      <div>DK/EN</div>
     </header>
   );
 }
