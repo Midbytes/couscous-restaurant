@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./meetUs.module.scss";
 import Image from "next/image";
-import { MEETUS_SECTION_ITEM } from "@/app/constant/sectionItem";
+import { MEET_US_SECTION_ITEM } from "@/app/constant/sectionItem";
 import Section from "../section/Section";
 
 function MeetUs() {
@@ -17,7 +17,7 @@ function MeetUs() {
       </h1>
       <div className={styles.text}>
         {" "}
-        {MEETUS_SECTION_ITEM.map((item) => (
+        {MEET_US_SECTION_ITEM.map((item) => (
           <Section {...item} key={item.title} />
         ))}
       </div>
