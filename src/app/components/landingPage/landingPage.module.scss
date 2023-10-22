@@ -1,0 +1,20 @@
+.container {
+  position: relative;
+  width: 100%;
+  height: auto;
+  top: 58px;
+}
+.text {
+  padding: 12px;
+  background-color: var(--background-primary);
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 50%;
+  h1 {
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+}

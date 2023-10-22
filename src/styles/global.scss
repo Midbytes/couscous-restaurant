@@ -6,11 +6,19 @@
   --background-form-color: #e3e7f3;
   --background-error: #fdeded;
   --text-error-color: #5f2120;
-  --background-white: #fff;
 }
+
 body {
   background-color: var(--background-primary);
   height: 100%;
   color: var(--text-color);
   margin: 0;
+  h1 {
+    color: var(--main-title-color);
+    margin: 0;
+  }
+  p {
+    color: var(--text-color);
+    margin: 0;
+  }
 }
