@@ -20,6 +20,9 @@ jobs:
         with:
           node-version: "18"
 
+      - name: variables
+        run: echo ${{ env.STRAPI_GRAPHQL_ENDPOINT }}
+
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
 
