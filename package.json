@@ -10,7 +10,7 @@
     "prepare": "husky install",
     "cypress:open": "cypress open",
     "generate": "graphql-codegen --config codegen.ts",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package && npm run generate"
   },
   "dependencies": {
     "@graphql-typed-document-node/core": "^3.2.0",
