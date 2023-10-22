@@ -1,15 +1,8 @@
 import { CodegenConfig } from "@graphql-codegen/cli";
+import "dotenv/config";
 
 const config: CodegenConfig = {
-  schema: [
-    {
-      [process.env.NEXT_PUBLIC_STRAPI_GRAPHQL_ENDPOINT || ""]: {
-        headers: {
-          authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_BEARER_TOKEN}`,
-        },
-      },
-    },
-  ],
+  schema: process.env.STRAPI_GRAPHQL_ENDPOINT,
   ignoreNoDocuments: true,
   generates: {
     "src/generated/graphql.ts": {
