@@ -9,7 +9,8 @@
     "lint": "next lint",
     "prepare": "husky install",
     "cypress:open": "cypress open",
-    "generate": "graphql-codegen --config codegen.ts"
+    "generate": "graphql-codegen --config codegen.ts",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@graphql-typed-document-node/core": "^3.2.0",
@@ -19,15 +20,14 @@
     "next": "13.5.4",
     "npm": "^10.2.1",
     "react": "^18",
-    "react-dom": "^18",
-    "react-query": "^3.39.3"
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/near-operation-file-preset": "3.0.0",
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-operations": "^4.0.1",
-    "@graphql-codegen/typescript-react-query": "^5.0.0",
+    "@graphql-codegen/typescript-react-query": "5.0.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -39,6 +39,7 @@
     "graphql": "^16.8.1",
     "husky": "^8.0.0",
     "sass": "^1.68.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "patch-package": "8.0.0"
   }
 }
