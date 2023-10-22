@@ -3,7 +3,8 @@ name: Run lint 🧙‍♂️
 on: pull_request
 
 env:
-  STRAPI_GRAPHQL_ENDPOINT: ${{ secrets.STRAPI_GRAPHQL_ENDPOINT }}
+  STRAPI_GRAPHQL_ENDPOINT: https://couscous.up.railway.app/graphql
+  TEST: https://couscous.up.railway.app/graphql
   NEXT_PUBLIC_STRAPI_BEARER_TOKEN: ${{ secrets.NEXT_PUBLIC_STRAPI_BEARER_TOKEN }}
   NEXT_PUBLIC_STRAPI_GRAPHQL_ENDPOINT: ${{ secrets.NEXT_PUBLIC_STRAPI_GRAPHQL_ENDPOINT }}
 
@@ -21,7 +22,10 @@ jobs:
           node-version: "18"
 
       - name: variables
-        run: echo ${{ env.STRAPI_GRAPHQL_ENDPOINT }}
+        run: echo $TEST
+
+      - name: secret
+        run: echo $STRAPI_GRAPHQL_ENDPOINT
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
