@@ -1,0 +1,13 @@
+query getDelicacies {
+  delicacies {
+    data {
+      attributes {
+        name
+        description
+        price
+        index
+        type
+      }
+    }
+  }
+}
