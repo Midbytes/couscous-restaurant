@@ -15,5 +15,7 @@ export const fetcher = async <T, P>(query: String, variables?: P) => {
     throw new Error("An error happened!");
   }
 
-  return (await res.json()) as T;
+  const data: { data: T } = await res.json();
+
+  return data.data;
 };
