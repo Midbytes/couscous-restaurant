@@ -1,8 +1,8 @@
+import Providers from "@/components/providers/Provider";
 import "@/styles/global.scss";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { ReactNode } from "react";
-import Providers from "../components/providers/provider";
 
 const poppins = Poppins({
   weight: ["400", "700"],

@@ -2,7 +2,7 @@
 import React from "react";
 import styles from "./navBar.module.scss";
 import Image from "next/image";
-import { NAV_ITEM } from "@/app/constant/navItem";
+import { NAV_ITEM } from "@/constants/navItem";
 import LinkNavigation from "../link/LinkNavigation";
 
 function Navbar() {
