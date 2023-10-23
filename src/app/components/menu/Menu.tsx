@@ -12,7 +12,7 @@ type Food = NonNullable<
 export default function Menu() {
   const { data } = useGetFoodsQuery();
   const { foods } = data ?? {};
-  const arr = foods?.data.reduce<Record<Enum_Food_Course, Food[]>>(
+  const courses = foods?.data.reduce<Record<Enum_Food_Course, Food[]>>(
     (acc, { attributes: food }) => {
       if (!food) return acc;
 
@@ -25,23 +25,38 @@ export default function Menu() {
     },
     {} as Record<Enum_Food_Course, Food[]>
   );
-  console.log(arr);
+
   return (
     <article>
       <h2>Our Menu</h2>
       <ul className={styles.foodList}>
-        {foods?.data.map((food) => {
-          return (
-            //
-            <ul key={foods.data.indexOf(food)} className={styles.foodListItem}>
-              <span>
-                <li>{food.attributes?.name}</li>
-                <li>{food.attributes?.description}</li>
-              </span>
-              <li>{food.attributes?.price},-</li>
-            </ul>
-          );
-        })}
+        {courses
+          ? (
+              Object.keys(courses) as Array<
+                (typeof Enum_Food_Course)[keyof typeof Enum_Food_Course]
+              >
+            ).map((courseItem) => {
+              return (
+                <li key={courseItem}>
+                  <h3>{courseItem}</h3>
+                  {courses[courseItem].map((food) => {
+                    return (
+                      <ul
+                        key={courses[courseItem].indexOf(food)}
+                        className={styles.foodListItem}
+                      >
+                        <span>
+                          <li> {food.name} </li>
+                          <li> {food.description} </li>
+                        </span>
+                        <li> {food.price},- </li>
+                      </ul>
+                    );
+                  })}
+                </li>
+              );
+            })
+          : ""}
       </ul>
     </article>
   );
