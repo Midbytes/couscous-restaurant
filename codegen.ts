@@ -17,7 +17,7 @@ const config: CodegenConfig = {
         baseTypesPath: "generated/graphql.ts",
       },
       config: {
-        fetcher: "@/utils/fetcher#fetcher",
+        fetcher: "@/app/utils/fetcher#fetcher",
         isReactHook: false,
         exposeQueryKeys: true,
       },
