@@ -1,0 +1,14 @@
+query getFoods {
+  foods {
+    data {
+      attributes {
+        name
+        description
+        price
+        course
+        index
+        type
+      }
+    }
+  }
+}

@@ -2,6 +2,11 @@ name: Test Cypress 👀
 
 on: pull_request
 
+env:
+  STRAPI_GRAPHQL_ENDPOINT: ${{ secrets.STRAPI_GRAPHQL_ENDPOINT }}
+  NEXT_PUBLIC_STRAPI_BEARER_TOKEN: ${{ secrets.NEXT_PUBLIC_STRAPI_BEARER_TOKEN }}
+  NEXT_PUBLIC_STRAPI_GRAPHQL_ENDPOINT: ${{ secrets.NEXT_PUBLIC_STRAPI_GRAPHQL_ENDPOINT }}
+
 jobs:
   cypress:
     runs-on: ubuntu-latest
