@@ -1,4 +1,4 @@
-import { SectionItem } from "../types/sectionItem";
+import { SectionItem } from "../type/sectionItem";
 
 export const NEWS_SECTION_ITEM: SectionItem[] = [
   {

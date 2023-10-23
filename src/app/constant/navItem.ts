@@ -1,4 +1,4 @@
-import { NavItem } from "../types/navItem";
+import { NavItem } from "../type/navItem";
 
 export const NAV_ITEM: NavItem[] = [
   {

@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./landingPage.module.scss";
-import { NEWS_SECTION_ITEM } from "@/constants/sectionItem";
+import { NEWS_SECTION_ITEM } from "@/app/constant/sectionItem";
 import Section from "../section/Section";
 import Image from "next/image";
 

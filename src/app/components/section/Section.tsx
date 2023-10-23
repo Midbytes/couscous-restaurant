@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./section.module.scss";
-import { SectionItem } from "@/types/sectionItem";
+import { SectionItem } from "@/app/type/sectionItem";
 
 function Section({ title, description }: SectionItem) {
   return (
