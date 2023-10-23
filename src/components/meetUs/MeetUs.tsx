@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./meetUs.module.scss";
 import Image from "next/image";
-import { MEET_US_SECTION_ITEM } from "@/app/constant/sectionItem";
+import { MEET_US_SECTION_ITEM } from "@/constants/sectionItem";
 import Section from "../section/Section";
 
 function MeetUs() {
