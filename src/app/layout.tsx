@@ -1,4 +1,4 @@
-import Providers from "../components/providers/Provider";
+import Providers from "@/components/providers/Providers";
 import "@/styles/global.scss";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
