@@ -8,7 +8,7 @@ export const NEWS_SECTION_ITEM: SectionItem[] = [
   },
 ];
 
-export const MEETUS_SECTION_ITEM: SectionItem[] = [
+export const MEET_US_SECTION_ITEM: SectionItem[] = [
   {
     title: "Meet Us",
     description:
