@@ -8,7 +8,7 @@ const nextConfig = {
     // this line is added to each sass file so that
     // we don't have to write an import each time
     // you can add more imports here, if you want
-    prependData: `@use "@/styles/mixins" as *;`,
+    prependData: `@use "@/app/styles/mixins" as *;`,
   },
 };
 
