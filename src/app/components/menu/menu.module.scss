@@ -1,23 +1,26 @@
 .foodList {
   width: 100%;
-  margin: 0;
+  list-style: none;
+  padding: 0;
+  .course {
+    text-transform: capitalize;
+  }
   .foodListItem {
-    margin: 0;
+    padding: 0.2em 0 0.2em 1em;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    list-style: none;
     width: 100%;
-    li:last-of-type {
+    .price {
       color: red;
     }
-    span {
+    .foodListItemLeft {
       display: flex;
       flex-direction: row;
-      li:first-of-type {
+      .name {
         color: blue;
       }
-      li:last-of-type {
+      .description {
         color: green;
       }
     }
