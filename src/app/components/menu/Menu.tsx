@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import { GetFoodsQuery, useGetFoodsQuery } from "./getFoods.rq.generated";
 import styles from "./menu.module.scss";
 import { Enum_Food_Course } from "@/generated/graphql";
@@ -12,52 +12,73 @@ type Food = NonNullable<
 export default function Menu() {
   const { data } = useGetFoodsQuery();
   const { foods } = data ?? {};
-  const courses = foods?.data.reduce<Record<Enum_Food_Course, Food[]>>(
-    (acc, { attributes: food }) => {
-      if (!food) return acc;
 
-      let { course: courseName } = food;
+  // Prevent useless runs of reduce for performance
+  const courses = useMemo(
+    () =>
+      foods?.data.reduce<Record<Enum_Food_Course, Food[]>>(
+        (courses, { attributes: food }) => {
+          // Prevent adding null/undefined to array
+          if (!food) return courses;
 
-      return {
-        ...acc,
-        [courseName]: [...(acc[courseName] || []), food],
-      };
-    },
-    {} as Record<Enum_Food_Course, Food[]>
+          let { course } = food;
+
+          return {
+            ...courses,
+            [course]: [...(courses[course] || []), food],
+          };
+        },
+        {} as Record<Enum_Food_Course, Food[]>
+      ),
+    [foods?.data]
   );
+  // Order of the sections
+  const order = ["starter", "main", "dessert", "alcohol", "soft_drink"];
+  // Unordered sections retrieved from graphQl request
+  const sections = Object.keys(courses ?? []) as Array<Enum_Food_Course>;
+  /* Reordering graphQL request sections, new sections that are not inside 
+  the order array are placed at the end of the orderedSections array */
+  const orderedSections = sections
+    .sort((a, b) => {
+      return order.indexOf(a) - order.indexOf(b);
+    })
+    .filter((section) => order.indexOf(section) > -1)
+    .concat(sections.filter((section) => order.indexOf(section) == -1));
 
   return (
-    <article>
+    <section>
       <h2>Our Menu</h2>
-      <ul className={styles.foodList}>
-        {courses
-          ? (
-              Object.keys(courses) as Array<
-                (typeof Enum_Food_Course)[keyof typeof Enum_Food_Course]
-              >
-            ).map((courseItem) => {
-              return (
-                <li key={courseItem}>
-                  <h3>{courseItem}</h3>
-                  {courses[courseItem].map((food) => {
+      {courses && orderedSections.length > 0
+        ? orderedSections.map((courseItem) => {
+            return (
+              <ul className={styles.foodList} key={courseItem}>
+                <h3 className={styles.course}>
+                  {courseItem.replace(/_/, " ") + "s"}
+                </h3>
+                {courses[courseItem]
+                  .sort((a, b) =>
+                    a.index && b.index ? (a.index >= b.index ? 1 : -1) : 0
+                  )
+                  .map((food) => {
                     return (
-                      <ul
+                      <li
                         key={courses[courseItem].indexOf(food)}
                         className={styles.foodListItem}
                       >
-                        <span>
-                          <li> {food.name} </li>
-                          <li> {food.description} </li>
+                        <span className={styles.foodListItemLeft}>
+                          <span className={styles.name}>{food.name}</span>
+                          <span className={styles.description}>
+                            {food.description}
+                          </span>
                         </span>
-                        <li> {food.price},- </li>
-                      </ul>
+                        <span className={styles.price}>{food.price},-</span>
+                      </li>
                     );
                   })}
-                </li>
-              );
-            })
-          : ""}
-      </ul>
-    </article>
+              </ul>
+            );
+          })
+        : ""}
+    </section>
   );
 }
