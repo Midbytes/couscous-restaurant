@@ -46,35 +46,41 @@ export default function Menu() {
     .concat(sections.filter((section) => order.indexOf(section) == -1));
 
   return (
-    <section>
+    <section className="container">
       <h2>Our Menu</h2>
       {courses && orderedSections.length > 0
         ? orderedSections.map((courseItem) => {
             return (
               <ul className={styles.foodList} key={courseItem}>
                 <h3 className={styles.course}>
-                  {courseItem.replace(/_/, " ") + "s"}
+                  {
+                    // Fix course formatting and make plural
+                    courseItem.replace(/_/, " ") + "s"
+                  }
                 </h3>
-                {courses[courseItem]
-                  .sort((a, b) =>
-                    a.index && b.index ? (a.index >= b.index ? 1 : -1) : 0
-                  )
-                  .map((food) => {
-                    return (
-                      <li
-                        key={courses[courseItem].indexOf(food)}
-                        className={styles.foodListItem}
-                      >
-                        <span className={styles.foodListItemLeft}>
-                          <span className={styles.name}>{food.name}</span>
-                          <span className={styles.description}>
-                            {food.description}
+                {
+                  // Sort foods by index: low index is higher on the list
+                  courses[courseItem]
+                    .sort((a, b) =>
+                      a.index && b.index ? (a.index >= b.index ? 1 : -1) : 0
+                    )
+                    .map((food) => {
+                      return (
+                        <li
+                          key={courses[courseItem].indexOf(food)}
+                          className={styles.foodListItem}
+                        >
+                          <span className={styles.foodListItemLeft}>
+                            <span className={styles.name}>{food.name}</span>
+                            <span className={styles.description}>
+                              {food.description}
+                            </span>
                           </span>
-                        </span>
-                        <span className={styles.price}>{food.price},-</span>
-                      </li>
-                    );
-                  })}
+                          <span className={styles.price}>{food.price},-</span>
+                        </li>
+                      );
+                    })
+                }
               </ul>
             );
           })
