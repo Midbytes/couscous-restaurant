@@ -4,6 +4,7 @@ import styles from "./navBar.module.scss";
 import Image from "next/image";
 import { NAV_ITEM } from "@/app/constant/navItem";
 import LinkNavigation from "../link/LinkNavigation";
+import LanguageSelector from "../languageSelector/LanguageSelector";
 
 function Navbar() {
   return (
@@ -12,8 +13,8 @@ function Navbar() {
         <Image
           src="/assets/logo.svg"
           alt="logo of le couscous restaurant"
-          width={64}
-          height={39}
+          width={0}
+          height={0}
         />
         <span>Couscous</span>
       </h1>
@@ -24,7 +25,7 @@ function Navbar() {
           ))}
         </ul>
       </nav>
-      <div>DK/EN</div>
+      <LanguageSelector />
     </header>
   );
 }
