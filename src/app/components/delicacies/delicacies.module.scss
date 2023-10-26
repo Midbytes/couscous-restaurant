@@ -1,0 +1,9 @@
+.container {
+  background-color: var(--background-primary);
+  width: 100%;
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+}
