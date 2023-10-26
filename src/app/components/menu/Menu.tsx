@@ -21,7 +21,7 @@ export default function Menu() {
           // Prevent adding null/undefined to array
           if (!food) return courses;
 
-          let { course } = food;
+          const { course } = food;
 
           return {
             ...courses,
