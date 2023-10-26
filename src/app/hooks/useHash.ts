@@ -12,9 +12,7 @@ const useHash = () => {
 
   useEffect(() => {
     setIsClient(true);
-    console.log("run");
     const handleHashChange = () => {
-      console.log("first");
       setHash(getHash());
     };
     window.addEventListener("hashchange", handleHashChange);

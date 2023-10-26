@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 import Providers from "@/app/components/providers/Providers";
 
 const poppins = Poppins({
-  weight: ["400", "700"],
+  weight: ["400", "600"],
   subsets: ["latin"],
 });
 
