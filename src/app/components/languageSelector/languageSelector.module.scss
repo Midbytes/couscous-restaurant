@@ -1,0 +1,13 @@
+.lang {
+  button {
+    font-size: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 0.3rem;
+    transition: ease 0.2s;
+  }
+  .inactive {
+    color: var(--text-color-disabled);
+  }
+}
