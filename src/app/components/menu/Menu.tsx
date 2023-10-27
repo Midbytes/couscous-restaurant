@@ -7,6 +7,7 @@ import { Unpacked } from "@/app/type/utils";
 import { sortByOrder } from "@/app/utils/sortByOrder";
 import { fixTitleFormat } from "@/app/utils/fixTitleFormat";
 import { formatPrice } from "@/app/utils/formatPrice";
+import { sortByIndex } from "@/app/utils/sortByIndex";
 
 type Food = NonNullable<
   Unpacked<Unpacked<NonNullable<GetFoodsQuery["foods"]>>["data"]>["attributes"]
@@ -59,29 +60,23 @@ export default function Menu() {
             return (
               <ul className={styles.foodList} key={courseItem}>
                 <h3 className={styles.course}>{fixTitleFormat(courseItem)}</h3>
-                {
-                  // Sort foods by index: low index is higher on the list
-                  // TODO : use utils fc (tried: sortByIndex(courses[courseItem], courseItem[i].index))
-                  courses[courseItem]
-                    .sort((a, b) =>
-                      a.index && b.index ? (a.index >= b.index ? 1 : -1) : 0
-                    )
-                    .map(({ name, id, price, description }) => {
-                      return (
-                        <li key={id} className={styles.foodListItem}>
-                          <span className={styles.foodListItemLeft}>
-                            <span className={styles.name}>{name}</span>
-                            <span className={styles.description}>
-                              {description}
-                            </span>
+                {sortByIndex(courses[courseItem], "index").map(
+                  ({ name, id, price, description }) => {
+                    return (
+                      <li key={id} className={styles.foodListItem}>
+                        <span className={styles.foodListItemLeft}>
+                          <span className={styles.name}>{name}</span>
+                          <span className={styles.description}>
+                            {description}
                           </span>
-                          <span className={styles.price}>
-                            {formatPrice(price)}
-                          </span>
-                        </li>
-                      );
-                    })
-                }
+                        </span>
+                        <span className={styles.price}>
+                          {formatPrice(price)}
+                        </span>
+                      </li>
+                    );
+                  }
+                )}
               </ul>
             );
           })
