@@ -61,6 +61,7 @@ export default function Menu() {
                 <h3 className={styles.course}>{fixTitleFormat(courseItem)}</h3>
                 {
                   // Sort foods by index: low index is higher on the list
+                  // TODO : use utils fc (tried: sortByIndex(courses[courseItem], courseItem[i].index))
                   courses[courseItem]
                     .sort((a, b) =>
                       a.index && b.index ? (a.index >= b.index ? 1 : -1) : 0
