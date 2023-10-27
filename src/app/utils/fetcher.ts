@@ -1,4 +1,4 @@
-export const fetcher = async <T, P>(query: String, variables?: P) => {
+export const fetcher = async <T, P>(query: string, variables?: P) => {
   const res = await fetch(
     process.env.NEXT_PUBLIC_STRAPI_GRAPHQL_ENDPOINT || "",
     {
