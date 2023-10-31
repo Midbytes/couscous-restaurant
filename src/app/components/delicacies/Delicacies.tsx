@@ -8,7 +8,8 @@ import { sortByIndex } from "@/app/utils/sortByIndex";
 import {
   GetDelicaciesQuery,
   useGetDelicaciesQuery,
-} from "@/app/getDelicacies.rq.generated";
+} from "./getDelicacies.rq.generated";
+
 //import { sortByOrder } from "@/app/utils/sortByOrder";
 
 type DelicacyProps = NonNullable<
