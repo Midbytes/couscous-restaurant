@@ -4,7 +4,7 @@ query getAboutUs {
       id
       attributes {
         aboutUsDescription
-        Title
+        title
       }
     }
   }

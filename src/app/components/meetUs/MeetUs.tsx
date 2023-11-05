@@ -10,8 +10,8 @@ function MeetUs() {
   const res = data?.aboutUs?.data?.attributes;
   return (
     <article className={`${styles.container} container-row`} id="#meet">
-      {res?.aboutUsDescription && res.Title ? (
-        <Section title={res.Title} description={res.aboutUsDescription} />
+      {res?.aboutUsDescription && res.title ? (
+        <Section title={res.title} description={res.aboutUsDescription} />
       ) : (
         //TODO: Add loader
         ""
