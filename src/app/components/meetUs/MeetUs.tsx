@@ -9,7 +9,7 @@ function MeetUs() {
     <article className={styles.container} id="#meet">
       <h1 className={styles.img}>
         <Image
-          src={"/assets/meetUsPicture.svg"}
+          src={"/assets/couscous_illustration.webp"}
           alt="meetUs-picture"
           width={497}
           height={353}
