@@ -1,0 +1,11 @@
+query getAboutUs {
+  aboutUs {
+    data {
+      id
+      attributes {
+        aboutUsDescription
+        Title
+      }
+    }
+  }
+}
