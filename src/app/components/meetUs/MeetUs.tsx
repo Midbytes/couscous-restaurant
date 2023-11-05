@@ -6,21 +6,20 @@ import Section from "../section/Section";
 
 function MeetUs() {
   return (
-    <article className={styles.container} id="#meet">
-      <h1 className={styles.img}>
-        <Image
-          src={"/assets/couscous_illustration.webp"}
-          alt="meetUs-picture"
-          width={497}
-          height={353}
-        />
-      </h1>
+    <article className={`${styles.container} container-row`} id="#meet">
       <div className={styles.text}>
         {" "}
         {MEET_US_SECTION_ITEM.map((item) => (
           <Section {...item} key={item.title} />
         ))}
       </div>
+      <Image
+        className={styles.meetUsImage}
+        src={"/assets/couscous_illustration.webp"}
+        alt="meetUs-picture"
+        width={497}
+        height={353}
+      />
     </article>
   );
 }
