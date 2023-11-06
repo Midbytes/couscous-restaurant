@@ -1,0 +1,10 @@
+.reservation {
+  min-height: 40vh;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-secondary);
+  margin-top: 10vh;
+  .form {
+    gap: 4em;
+  }
+}
