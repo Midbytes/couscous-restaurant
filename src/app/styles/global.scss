@@ -36,7 +36,6 @@ body {
 }
 .container {
   max-width: 800px;
-  margin: 0 auto;
   margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
@@ -45,15 +44,30 @@ body {
   align-items: center;
 }
 
+.container-row {
+  flex-direction: row;
+  padding: 3rem 4rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
 @media only screen and (max-width: 992px) {
   .container {
     max-width: 700px;
+  }
+  .container-row {
+    flex-direction: column;
+    padding: 3rem 4rem;
   }
 }
 
 @media only screen and (max-width: 600px) {
   .container {
     max-width: 90%;
+  }
+  .container-row {
+    padding: 3rem 1rem;
   }
 }
 
