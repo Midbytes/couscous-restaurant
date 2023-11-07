@@ -20,6 +20,10 @@ const config: CodegenConfig = {
         fetcher: "@/app/utils/fetcher#fetcher",
         isReactHook: false,
         exposeQueryKeys: true,
+        scalars: {
+          DateTime: "Date",
+          Time: "string",
+        },
       },
       plugins: ["typescript-operations", "typescript-react-query"],
     },

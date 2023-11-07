@@ -1,0 +1,17 @@
+query getTables {
+  tables {
+    data {
+      attributes {
+        tableNumber
+        seats
+        reservations {
+          data {
+            attributes {
+              reservationDate
+            }
+          }
+        }
+      }
+    }
+  }
+}
