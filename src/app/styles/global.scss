@@ -70,3 +70,25 @@ body {
     padding: 3rem 1rem;
   }
 }
+
+//Override carousel css
+.glider-dot {
+  width: 16px !important;
+  border-radius: 5px !important;
+  height: 4px !important;
+}
+.glider-dot.active {
+  background: var(--main-title-color) !important;
+}
+
+.glider-container {
+  position: relative;
+}
+
+.glider-dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  bottom: 0.5em;
+}

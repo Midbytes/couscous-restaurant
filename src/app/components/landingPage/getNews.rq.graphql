@@ -1,0 +1,18 @@
+query getNews {
+  newsPosts {
+    data {
+      id
+      attributes {
+        Title
+        Description
+        backgroundBanner {
+          data {
+            attributes {
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+}
