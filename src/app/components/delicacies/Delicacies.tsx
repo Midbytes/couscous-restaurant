@@ -9,12 +9,19 @@ import {
   GetDelicaciesQuery,
   useGetDelicaciesQuery,
 } from "./getDelicacies.rq.generated";
+import { formatPrice } from "@/app/utils/formatPrice";
 
-//import { sortByOrder } from "@/app/utils/sortByOrder";
+import { sortByOrder } from "@/app/utils/sortByOrder";
 
 type DelicacyProps = NonNullable<
   Unpacked<NonNullable<GetDelicaciesQuery["delicacies"]>["data"]>["attributes"]
 >;
+
+const order = [
+  Enum_Delicacy_Type.OliveOil,
+  Enum_Delicacy_Type.Other,
+  Enum_Delicacy_Type.Wine,
+];
 
 function Delicacies() {
   const { data } = useGetDelicaciesQuery();
@@ -38,19 +45,11 @@ function Delicacies() {
     [delicacies?.data]
   );
 
-  const order = ["wine", "olive_oil", "other"];
-
   const sections = Object.keys(
     delicacyTypes ?? []
   ) as Array<Enum_Delicacy_Type>;
 
-  // const orderedSections =sortByOrder(sections,order);
-  const orderedSections = sections
-    .sort((a, b) => {
-      return order.indexOf(a) - order.indexOf(b);
-    })
-    .filter((section) => order.indexOf(section) > -1)
-    .concat(sections.filter((section) => order.indexOf(section) == -1));
+  const orderedSections = sortByOrder<Enum_Delicacy_Type>(sections, order);
 
   return (
     <section className="container">
@@ -63,19 +62,18 @@ function Delicacies() {
                 <h3 className={styles.type}>{fixTitleFormat(typeItem)}</h3>
 
                 {sortByIndex(delicacyTypes[typeItem], "index").map(
-                  (delicacy) => {
+                  ({ name, price, description, index }) => {
                     return (
-                      <li
-                        key={delicacyTypes[typeItem].indexOf(delicacy)}
-                        className={styles.delicacyListItem}
-                      >
+                      <li key={index} className={styles.delicacyListItem}>
                         <span className={styles.delicacyListItemLeft}>
-                          <span className={styles.name}>{delicacy.name}</span>
+                          <span className={styles.name}>{name}</span>
                           <span className={styles.description}>
-                            {delicacy.description}
+                            {description}
                           </span>
                         </span>
-                        <span className={styles.price}>{delicacy.price},-</span>
+                        <span className={styles.price}>
+                          {formatPrice(price)}
+                        </span>
                       </li>
                     );
                   }
