@@ -5,7 +5,7 @@ import { SectionItem } from "@/app/type/sectionItem";
 function Section({ title, description }: SectionItem) {
   return (
     <section className={styles.container}>
-      <h1>{title}</h1>
+      <h2>{title}</h2>
       <p>{description}</p>
     </section>
   );
