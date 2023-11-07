@@ -1,4 +1,5 @@
 "use client";
+import "glider-js/glider.min.css";
 import LandingPage from "./components/landingPage/LandingPage";
 import MeetUs from "./components/meetUs/MeetUs";
 import Menu from "./components/menu/Menu";
