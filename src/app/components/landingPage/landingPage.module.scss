@@ -1,20 +1,47 @@
 .container {
   position: relative;
   width: 100%;
-  height: auto;
   top: 58px;
 }
-.text {
-  padding: 12px;
-  background-color: var(--background-primary);
+
+.carousel {
+  height: 500px !important;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: flex-end !important;
+  align-items: flex-end;
+
+  .newsText {
+    h3 {
+      margin: 0 0 0 0;
+    }
+    background-color: var(--background-primary);
+    color: white;
+    padding: 1.2em 1.2em 2.4em 1.2em;
+    max-width: 600px;
+  }
+}
+
+.carouselArrow {
   position: absolute;
-  right: 0;
+  z-index: 5;
+  top: 0;
   bottom: 0;
-  width: 50%;
-  h1 {
-    font-size: 30px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
+  margin: auto 0;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  &.arrowPrevious {
+    left: 0;
+    img {
+      rotate: 180deg;
+    }
+  }
+  &.arrowNext {
+    right: 0;
   }
 }

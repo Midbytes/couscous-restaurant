@@ -1,26 +1,28 @@
+"use client";
 import React from "react";
 import styles from "./meetUs.module.scss";
 import Image from "next/image";
-import { MEET_US_SECTION_ITEM } from "@/app/constant/sectionItem";
 import Section from "../section/Section";
+import { useGetAboutUsQuery } from "./getAboutUs.rq.generated";
 
 function MeetUs() {
+  const { data } = useGetAboutUsQuery();
+  const res = data?.aboutUs?.data?.attributes;
   return (
-    <article className={styles.container} id="#meet">
-      <h1 className={styles.img}>
-        <Image
-          src={"/assets/meetUsPicture.svg"}
-          alt="meetUs-picture"
-          width={497}
-          height={353}
-        />
-      </h1>
-      <div className={styles.text}>
-        {" "}
-        {MEET_US_SECTION_ITEM.map((item) => (
-          <Section {...item} key={item.title} />
-        ))}
-      </div>
+    <article className={`${styles.container} container-row`} id="#meet">
+      {res?.aboutUsDescription && res.title ? (
+        <Section title={res.title} description={res.aboutUsDescription} />
+      ) : (
+        //TODO: Add loader
+        ""
+      )}
+      <Image
+        className={styles.meetUsImage}
+        src={"/assets/couscous_illustration.webp"}
+        alt="meetUs-picture"
+        width={497}
+        height={353}
+      />
     </article>
   );
 }
