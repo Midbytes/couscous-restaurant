@@ -1,6 +1,7 @@
 query getFoods {
   foods {
     data {
+      id
       attributes {
         name
         description
