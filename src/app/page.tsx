@@ -1,6 +1,7 @@
 "use client";
 import "glider-js/glider.min.css";
 import LandingPage from "./components/landingPage/LandingPage";
+import Delicacies from "./components/delicacies/Delicacies";
 import MeetUs from "./components/meetUs/MeetUs";
 import Menu from "./components/menu/Menu";
 import Navbar from "./components/navBar/Navbar";
@@ -15,6 +16,7 @@ export default function Home() {
       <MeetUs />
       <Reservation />
       <Menu />
+      <Delicacies />
     </main>
   );
 }
