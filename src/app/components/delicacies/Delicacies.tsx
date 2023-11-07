@@ -10,7 +10,6 @@ import {
   useGetDelicaciesQuery,
 } from "./getDelicacies.rq.generated";
 import { formatPrice } from "@/app/utils/formatPrice";
-
 import { sortByOrder } from "@/app/utils/sortByOrder";
 
 type DelicacyProps = NonNullable<
