@@ -1,0 +1,12 @@
+query getOpeningHours {
+  openingHours {
+    data {
+      attributes {
+        day
+        open
+        openingTime
+        closingTime
+      }
+    }
+  }
+}
