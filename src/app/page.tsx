@@ -14,8 +14,8 @@ export default function Home() {
       <Navbar />
       <LandingPage />
       <MeetUs />
-      <Reservation />
       <Menu />
+      <Reservation />
       <Delicacies />
     </main>
   );
