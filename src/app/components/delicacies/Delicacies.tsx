@@ -5,10 +5,7 @@ import { Enum_Delicacy_Type } from "@/generated/graphql";
 import { Unpacked } from "@/app/type/utils";
 import { fixTitleFormat } from "@/app/utils/fixTitleFormat";
 import { sortByIndex } from "@/app/utils/sortByIndex";
-import {
-  GetDelicaciesQuery,
-  useGetDelicaciesQuery,
-} from "./getDelicacies.rq.generated";
+import { GetDelicaciesQuery } from "./getDelicacies.rq.generated";
 import { formatPrice } from "@/app/utils/formatPrice";
 import { sortByOrder } from "@/app/utils/sortByOrder";
 
@@ -22,8 +19,7 @@ const order = [
   Enum_Delicacy_Type.Wine,
 ];
 
-function Delicacies() {
-  const { data } = useGetDelicaciesQuery();
+function Delicacies({ data }: { data: GetDelicaciesQuery }) {
   const { delicacies } = data ?? {};
 
   const delicacyTypes = useMemo(

@@ -1,6 +1,6 @@
 import "glider-js/glider.min.css";
 import News from "./components/news";
-import Delicacies from "./components/delicacies/Delicacies";
+import Delicacies from "./components/delicacies";
 import Menu from "./components/menu/Menu";
 import Navbar from "./components/navBar/Navbar";
 import Reservation from "./components/reservation/Reservation";
