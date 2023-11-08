@@ -47,6 +47,12 @@ export default function Reservation() {
   const { data: openingHours } = useGetOpeningHoursQuery();
   const [reservationDate, setReservationDate] = useState<Dayjs | null>(dayjs());
   const [slots, setSlots] = useState<Dayjs[]>([]);
+  const [guestNumber, setGuestNumber] = useState<number>(1);
+
+  const handleChangeGuests = (newGuestNumber: number) => {
+    setGuestNumber(newGuestNumber);
+  };
+  console.log(guestNumber);
 
   // Order tables from most seats to least seats
   const sortedTables =
@@ -100,7 +106,11 @@ export default function Reservation() {
       <section className={`container ${styles.reservation}`}>
         <ThemeProvider theme={themeOptions}>
           <FormControl className={styles.form}>
-            <GuestsInput sortedTables={sortedTables} />
+            <GuestsInput
+              sortedTables={sortedTables}
+              guestNumber={guestNumber}
+              onGuestNumberChange={handleChangeGuests}
+            />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 label="Reservation date"
