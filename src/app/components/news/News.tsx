@@ -1,16 +1,15 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import styles from "./news.module.scss";
 import Glider from "react-glider";
 import Image from "next/image";
 import { GetNewsQuery } from "./getNews.rq.generated";
 
 function News({ data }: { data: GetNewsQuery }) {
-  const [arrowPrevious, setArrowPrevious] =
-    React.useState<HTMLButtonElement | null>(null);
-  const [arrowNext, setArrowNext] = React.useState<HTMLButtonElement | null>(
+  const [arrowPrevious, setArrowPrevious] = useState<HTMLButtonElement | null>(
     null
   );
+  const [arrowNext, setArrowNext] = useState<HTMLButtonElement | null>(null);
   const multiNews = data?.newsPosts && data?.newsPosts?.data.length > 1;
 
   return (
@@ -27,7 +26,7 @@ function News({ data }: { data: GetNewsQuery }) {
             type="button"
           >
             <Image
-              src={"/assets/arrow_right_white_24dp.svg"}
+              src="/assets/arrow_right_white_24dp.svg"
               alt=""
               width={64}
               height={64}
@@ -41,7 +40,7 @@ function News({ data }: { data: GetNewsQuery }) {
             type="button"
           >
             <Image
-              src={"/assets/arrow_right_white_24dp.svg"}
+              src="/assets/arrow_right_white_24dp.svg"
               alt=""
               width={64}
               height={64}
