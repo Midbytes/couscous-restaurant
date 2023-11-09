@@ -3,10 +3,9 @@ import React from "react";
 import styles from "./meetUs.module.scss";
 import Image from "next/image";
 import Section from "../section/Section";
-import { useGetAboutUsQuery } from "./getAboutUs.rq.generated";
+import { GetAboutUsQuery } from "./getAboutUs.rq.generated";
 
-function MeetUs() {
-  const { data } = useGetAboutUsQuery();
+function MeetUs({ data }: { data: GetAboutUsQuery }) {
   const res = data?.aboutUs?.data?.attributes;
   return (
     <article className={`${styles.container} container-row`} id="#meet">

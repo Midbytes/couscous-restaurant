@@ -1,6 +1,6 @@
 "use client";
 import React, { useMemo } from "react";
-import { GetFoodsQuery, useGetFoodsQuery } from "./getFoods.rq.generated";
+import { GetFoodsQuery } from "./getFoods.rq.generated";
 import styles from "./menu.module.scss";
 import { Enum_Food_Course } from "@/generated/graphql";
 import { Unpacked } from "@/app/type/utils";
@@ -24,8 +24,7 @@ const order = [
   Enum_Food_Course.SoftDrink,
 ];
 
-export default function Menu() {
-  const { data } = useGetFoodsQuery();
+export default function Menu({ data }: { data: GetFoodsQuery }) {
   const { foods } = data ?? {};
 
   // Prevent useless runs of reduce for performance

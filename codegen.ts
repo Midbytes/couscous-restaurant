@@ -20,6 +20,7 @@ const config: CodegenConfig = {
         fetcher: "@/app/utils/fetcher#fetcher",
         isReactHook: false,
         exposeQueryKeys: true,
+        exposeFetcher: true,
         scalars: {
           DateTime: "Date",
           Time: "string",
