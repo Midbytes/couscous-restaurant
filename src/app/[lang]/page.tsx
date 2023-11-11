@@ -15,11 +15,11 @@ export default function Home({
   return (
     <main className={styles.main}>
       <Navbar lang={lang} />
-      <News />
+      <News lang={lang} />
       <MeetUs lang={lang} />
       <Reservation />
       <Menu lang={lang} />
-      <Delicacies />
+      <Delicacies lang={lang} />
     </main>
   );
 }
