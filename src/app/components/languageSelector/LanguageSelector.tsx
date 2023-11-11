@@ -4,7 +4,7 @@ import styles from "./languageSelector.module.scss";
 import Link from "next/link";
 import { Locales } from "../../../../i18n.config";
 
-export default function LanguageSelector({ lang }: { lang: "da" | "en" }) {
+export default function LanguageSelector({ lang }: { lang: Locales }) {
   // Temporary language setter
   return (
     <span className={styles.lang}>
