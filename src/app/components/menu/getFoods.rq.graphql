@@ -1,5 +1,5 @@
 query getFoods {
-  foods {
+  foods(sort: ["index:asc"]) {
     data {
       id
       attributes {
@@ -7,8 +7,17 @@ query getFoods {
         description
         price
         course
-        index
         type
+      }
+    }
+  }
+
+  courseCategories: courses(sort: ["order:asc"]) {
+    data {
+      attributes {
+        name
+        label
+        description
       }
     }
   }
