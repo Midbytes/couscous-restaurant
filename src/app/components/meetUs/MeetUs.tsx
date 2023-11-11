@@ -3,7 +3,7 @@ import styles from "./meetUs.module.scss";
 import Image from "next/image";
 import Section from "../section/Section";
 import { GetAboutUsQuery } from "./getAboutUs.rq.generated";
-import meetUsImage from "../../../../public/assets/couscous_illustration.webp";
+import meetUsImage from "../../../../public/assets/couscous_img.webp";
 
 function MeetUs({ data }: { data: GetAboutUsQuery }) {
   const res = data?.aboutUs?.data?.attributes;
@@ -19,7 +19,7 @@ function MeetUs({ data }: { data: GetAboutUsQuery }) {
         <Image
           className={styles.meetUsImage}
           src={meetUsImage}
-          width={500}
+          width={450}
           alt="meetUs-picture"
         />
       </article>
