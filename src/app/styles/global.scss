@@ -2,7 +2,7 @@
   --background-primary: #f5ead6;
   --background-secondary: #f9f9fb;
   --main-title-color: #203881;
-  --sub-title-color: #435073;
+  --subtitle-color: #3f476a;
   --text-color: #222429;
   --background-form-color: #e3e7f3;
   --background-error: #fdeded;
@@ -25,6 +25,10 @@ body {
   h3 {
     font-size: var(--font-size-sub-title);
     color: var(--main-title-color);
+    margin: 0.5em 0;
+  }
+  h4 {
+    margin: 0.5em 0;
   }
   h1 {
     color: var(--main-title-color);
