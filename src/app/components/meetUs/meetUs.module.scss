@@ -3,11 +3,16 @@
   background-color: var(--background-secondary);
   display: flex;
   justify-content: center;
+  //TODO: fix padding
+  padding-top: 3.5rem;
   .container {
     background-color: inherit;
     .meetUsImage {
       max-width: 80%;
       height: auto;
+      border-radius: 10px;
+      box-shadow: 6px 15px 30px 0 rgba(32, 35, 49, 0.493),
+        2px 4px 8px 0 rgba(0, 9, 13, 0.288);
     }
   }
 }
