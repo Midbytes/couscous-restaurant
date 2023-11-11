@@ -6,6 +6,7 @@ import Navbar from "../components/navBar/Navbar";
 import styles from "./page.module.scss";
 import MeetUs from "../components/meetUs";
 import { Locales } from "../../../i18n.config";
+import { Gallery } from "../components/gallery/Gallery";
 
 export default function Home({
   params: { lang },
@@ -19,6 +20,7 @@ export default function Home({
       <MeetUs lang={lang} />
       {/* <Reservation /> */}
       <Menu lang={lang} />
+      <Gallery />
       <Delicacies lang={lang} />
     </main>
   );

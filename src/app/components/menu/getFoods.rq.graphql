@@ -12,7 +12,7 @@ query getFoods($locale: I18NLocaleCode) {
     }
   }
 
-  courseCategories: courses(sort: ["order:asc"]) {
+  courseCategories: courses(sort: ["order:asc"], locale: $locale) {
     data {
       attributes {
         name

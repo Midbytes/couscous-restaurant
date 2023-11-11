@@ -8,6 +8,8 @@ import { sortByIndex } from "@/app/utils/sortByIndex";
 import { GetDelicaciesQuery } from "./getDelicacies.rq.generated";
 import { formatPrice } from "@/app/utils/formatPrice";
 import { sortByOrder } from "@/app/utils/sortByOrder";
+import { getSectionLabel } from "@/app/utils/getSectionLabel";
+import { Locales } from "../../../../i18n.config";
 
 type DelicacyProps = NonNullable<
   Unpacked<NonNullable<GetDelicaciesQuery["delicacies"]>["data"]>["attributes"]
@@ -19,7 +21,15 @@ const order = [
   Enum_Delicacy_Type.Wine,
 ];
 
-function Delicacies({ data }: { data: GetDelicaciesQuery }) {
+const id = "delicacies";
+
+function Delicacies({
+  data,
+  lang,
+}: {
+  data: GetDelicaciesQuery;
+  lang: Locales;
+}) {
   const { delicacies } = data ?? {};
 
   const delicacyTypes = useMemo(
@@ -47,8 +57,8 @@ function Delicacies({ data }: { data: GetDelicaciesQuery }) {
   const orderedSections = sortByOrder<Enum_Delicacy_Type>(sections, order);
 
   return (
-    <section id="delicacies" className="container">
-      <h2>Our Delicacies</h2>
+    <section id={id} className="container">
+      <h2>{getSectionLabel(id, lang)}</h2>
 
       {delicacyTypes && orderedSections.length > 0
         ? orderedSections.map((typeItem) => {

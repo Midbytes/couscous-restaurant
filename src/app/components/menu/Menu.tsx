@@ -6,6 +6,8 @@ import { Enum_Food_Course } from "@/generated/graphql";
 import { Unpacked } from "@/app/type/utils";
 import { fixTitleFormat } from "@/app/utils/fixTitleFormat";
 import { formatPrice } from "@/app/utils/formatPrice";
+import { Locales } from "../../../../i18n.config";
+import { getSectionLabel } from "@/app/utils/getSectionLabel";
 
 type Food = NonNullable<
   Unpacked<Unpacked<NonNullable<GetFoodsQuery["foods"]>>["data"]>["attributes"]
@@ -13,7 +15,15 @@ type Food = NonNullable<
   id: string;
 };
 
-export default function Menu({ data }: { data: GetFoodsQuery }) {
+const id = "menu";
+
+export default function Menu({
+  data,
+  lang,
+}: {
+  data: GetFoodsQuery;
+  lang: Locales;
+}) {
   const { foods, courseCategories } = data ?? {};
 
   // Prevent useless runs of reduce for performance
@@ -39,8 +49,8 @@ export default function Menu({ data }: { data: GetFoodsQuery }) {
   if (courseCategories.data.length === 0) return;
 
   return (
-    <section id="menu" className="container">
-      <h2>Our Menu</h2>
+    <section id={id} className="container">
+      <h2>{getSectionLabel(id, lang)}</h2>
       {courseCategories.data.map(({ attributes }) => {
         const { label, name, description } = attributes ?? {};
         if (!name) return;

@@ -11,6 +11,14 @@ const nextConfig = {
     // you can add more imports here, if you want
     prependData: `@use "@/app/styles/mixins" as *;`,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;
