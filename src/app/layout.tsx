@@ -1,3 +1,4 @@
+import "glider-js/glider.min.css";
 import "@/app/styles/global.scss";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
