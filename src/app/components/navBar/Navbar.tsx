@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import styles from "./navBar.module.scss";
 import Image from "next/image";
@@ -6,7 +5,7 @@ import { NAV_ITEM } from "@/app/constant/navItem";
 import LinkNavigation from "../link/LinkNavigation";
 import LanguageSelector from "../languageSelector/LanguageSelector";
 
-function Navbar() {
+function Navbar({ lang }: { lang: "da" | "en" }) {
   return (
     <header className={styles.container}>
       <h1 className={styles.logos}>
@@ -25,7 +24,7 @@ function Navbar() {
           ))}
         </ul>
       </nav>
-      <LanguageSelector />
+      <LanguageSelector lang={lang} />
     </header>
   );
 }

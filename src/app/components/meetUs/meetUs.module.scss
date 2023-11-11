@@ -1,7 +1,13 @@
-.container {
+.wrapper {
+  width: 100%;
   background-color: var(--background-secondary);
-  .meetUsImage {
-    max-width: 80%;
-    height: auto;
+  display: flex;
+  justify-content: center;
+  .container {
+    background-color: inherit;
+    .meetUsImage {
+      max-width: 80%;
+      height: auto;
+    }
   }
 }
