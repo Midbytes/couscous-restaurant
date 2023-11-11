@@ -39,7 +39,7 @@ export default function Menu({ data }: { data: GetFoodsQuery }) {
   if (courseCategories.data.length === 0) return;
 
   return (
-    <section className="container">
+    <section id="menu" className="container">
       <h2>Our Menu</h2>
       {courseCategories.data.map(({ attributes }) => {
         const { label, name, description } = attributes ?? {};

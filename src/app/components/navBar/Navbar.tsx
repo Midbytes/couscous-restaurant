@@ -20,8 +20,8 @@ function Navbar({ lang }: { lang: Locales }) {
       </h1>
       <nav className={styles.links}>
         <ul>
-          {NAV_ITEM.map((item) => (
-            <LinkNavigation {...item} key={item.href} />
+          {NAV_ITEM.map(({ href, label }) => (
+            <LinkNavigation href={href} label={label[lang]} key={href} />
           ))}
         </ul>
       </nav>

@@ -16,7 +16,7 @@ function News({ data }: { data: GetNewsQuery }) {
     // Only render when there are news
     data?.newsPosts &&
     data?.newsPosts?.data.length > 0 && (
-      <article className={styles.container}>
+      <article id="news" className={styles.container}>
         {/* Only show carousel when there are multiple news */}
         {multiNews && (
           //TODO: add ARIA accessibility

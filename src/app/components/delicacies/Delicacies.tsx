@@ -47,7 +47,7 @@ function Delicacies({ data }: { data: GetDelicaciesQuery }) {
   const orderedSections = sortByOrder<Enum_Delicacy_Type>(sections, order);
 
   return (
-    <section className="container">
+    <section id="delicacies" className="container">
       <h2>Our Delicacies</h2>
 
       {delicacyTypes && orderedSections.length > 0

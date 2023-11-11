@@ -2,23 +2,23 @@ import { NavItem } from "../type/navItem";
 
 export const NAV_ITEM: NavItem[] = [
   {
-    title: "News",
+    label: { en: "News", da: "Nyheder" },
     href: "#news",
   },
   {
-    title: "Meet Us",
+    label: { en: "About Us", da: "Om Os" },
     href: "#meet",
   },
   {
-    title: "Our Menu",
-    href: "#menu",
-  },
-  {
-    title: "Book a Table",
+    label: { en: "Book a Table", da: "Reservere et Bord" },
     href: "#tables",
   },
   {
-    title: "Our delicacies",
+    label: { en: "Our Menu", da: "Vores Menu" },
+    href: "#menu",
+  },
+  {
+    label: { en: "Our Delicacies", da: "Vores Delikatesser" },
     href: "#delicacies",
   },
 ];

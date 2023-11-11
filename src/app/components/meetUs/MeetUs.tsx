@@ -8,7 +8,7 @@ import meetUsImage from "../../../../public/assets/couscous_img.webp";
 function MeetUs({ data }: { data: GetAboutUsQuery }) {
   const res = data?.aboutUs?.data?.attributes;
   return (
-    <section className={styles.wrapper}>
+    <section id="meet" className={styles.wrapper}>
       <article className={`${styles.container} container-row`} id="#meet">
         {res?.aboutUsDescription && res.title ? (
           <Section title={res.title} description={res.aboutUsDescription} />

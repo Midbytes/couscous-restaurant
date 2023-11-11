@@ -4,7 +4,13 @@ import styles from "./linkNavigation.module.scss";
 import useHash from "@/app/hooks/useHash";
 import { NavItem } from "@/app/type/navItem";
 
-function LinkNavigation({ title, href }: NavItem) {
+function LinkNavigation({
+  label,
+  href,
+}: {
+  href: NavItem["href"];
+  label: string;
+}) {
   const hash = useHash();
 
   return (
@@ -13,7 +19,7 @@ function LinkNavigation({ title, href }: NavItem) {
         href={href}
         className={href?.includes(hash || " ") ? styles.active : ""}
       >
-        {title}
+        {label}
       </a>
     </li>
   );
