@@ -12,7 +12,7 @@ export default function LanguageSelector({ lang }: { lang: Locales }) {
         className={lang === Locales.Danish ? undefined : styles.inactive}
         href={`/${Locales.Danish}`}
       >
-        DK
+        DA
       </Link>
       /
       <Link
