@@ -1,5 +1,5 @@
 query getFoods($locale: I18NLocaleCode) {
-  foods(locale: $locale) {
+  foods(sort: ["index:asc"], locale: $locale) {
     data {
       id
       attributes {
@@ -7,8 +7,17 @@ query getFoods($locale: I18NLocaleCode) {
         description
         price
         course
-        index
         type
+      }
+    }
+  }
+
+  courseCategories: courses(sort: ["order:asc"]) {
+    data {
+      attributes {
+        name
+        label
+        description
       }
     }
   }
