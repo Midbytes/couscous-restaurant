@@ -19,7 +19,7 @@ function MeetUs({ data }: { data: GetAboutUsQuery }) {
         <Image
           className={styles.meetUsImage}
           src={meetUsImage}
-          width={450}
+          width={500}
           alt="meetUs-picture"
         />
       </article>
