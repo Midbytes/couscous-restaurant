@@ -16,7 +16,7 @@ function Navbar({ lang }: { lang: Locales }) {
           width={0}
           height={0}
         />
-        <span>Couscous</span>
+        <span>Le Couscous</span>
       </h1>
       <nav className={styles.links}>
         <ul>

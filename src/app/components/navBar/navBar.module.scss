@@ -33,7 +33,6 @@
       color: var(--main-title-color);
       font-size: 24px;
       font-style: normal;
-      font-weight: 600;
       line-height: normal;
       display: flex;
       flex-direction: column;
@@ -59,7 +58,7 @@
         font-size: 0.8rem;
       }
 
-      @media (max-width: 645px) {
+      @media (max-width: 745px) {
         display: none;
       }
     }
