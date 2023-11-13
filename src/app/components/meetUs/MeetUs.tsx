@@ -3,7 +3,7 @@ import styles from "./meetUs.module.scss";
 import Image from "next/image";
 import Section from "../section/Section";
 import { GetAboutUsQuery } from "./getAboutUs.rq.generated";
-import meetUsImage from "../../../../public/assets/brik_img.webp";
+import meetUsImage from "../../../../public/assets/brik_img.jpg";
 
 function MeetUs({ data }: { data: GetAboutUsQuery }) {
   const res = data?.aboutUs?.data?.attributes;
