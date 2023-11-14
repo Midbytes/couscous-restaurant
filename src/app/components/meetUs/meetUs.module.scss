@@ -1,7 +1,21 @@
-.container {
+.wrapper {
+  width: 100%;
   background-color: var(--background-secondary);
-  .meetUsImage {
-    max-width: 80%;
-    height: auto;
+  display: flex;
+  justify-content: center;
+  min-height: 75vh;
+  //TODO: fix padding
+  padding-top: 3.5rem;
+  .container {
+    background-color: inherit;
+    h2 {
+      margin-top: 0;
+    }
+    .meetUsImage {
+      max-width: 80%;
+      height: auto;
+      border-radius: var(--standard-border-radius);
+      box-shadow: var(--standard-box-shadow);
+    }
   }
 }

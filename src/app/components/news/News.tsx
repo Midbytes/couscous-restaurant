@@ -56,6 +56,7 @@ function News({ data }: { data: GetNewsQuery }) {
           slidesToShow={1}
           slidesToScroll={1}
           scrollLockDelay={0}
+          className={styles.carousel}
           arrows={{
             prev: arrowPrevious,
             next: arrowNext,
@@ -65,7 +66,7 @@ function News({ data }: { data: GetNewsQuery }) {
             data.newsPosts?.data.map((post, id) => (
               <div
                 key={id}
-                className={styles.carousel}
+                className={styles.slide}
                 style={{
                   backgroundImage: `url(${post.attributes?.backgroundBanner.data?.attributes?.url})`,
                 }}

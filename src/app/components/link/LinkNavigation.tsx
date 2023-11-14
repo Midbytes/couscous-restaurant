@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import styles from "./linkNavigation.module.scss";
 import useHash from "@/app/hooks/useHash";

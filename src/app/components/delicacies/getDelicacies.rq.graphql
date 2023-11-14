@@ -1,5 +1,5 @@
-query getDelicacies {
-  delicacies {
+query getDelicacies($locale: I18NLocaleCode) {
+  delicacies(locale: $locale) {
     data {
       attributes {
         name

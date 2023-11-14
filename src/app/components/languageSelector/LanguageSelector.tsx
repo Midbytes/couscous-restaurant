@@ -1,29 +1,26 @@
-import React, { useState } from "react";
+"use client";
+import React from "react";
 import styles from "./languageSelector.module.scss";
+import Link from "next/link";
+import { Locales } from "../../../../i18n.config";
 
-enum Locales {
-  English = "en",
-  Danish = "da",
-}
-
-export default function LanguageSelector() {
+export default function LanguageSelector({ lang }: { lang: Locales }) {
   // Temporary language setter
-  const [language, setLanguage] = useState<Locales>(Locales.English);
   return (
     <span className={styles.lang}>
-      <button
-        className={language === Locales.Danish ? undefined : styles.inactive}
-        onClick={() => setLanguage(Locales.Danish)}
+      <Link
+        className={lang === Locales.Danish ? undefined : styles.inactive}
+        href={`/${Locales.Danish}`}
       >
-        DK
-      </button>
+        DA
+      </Link>
       /
-      <button
-        className={language === Locales.English ? undefined : styles.inactive}
-        onClick={() => setLanguage(Locales.English)}
+      <Link
+        className={lang === Locales.English ? undefined : styles.inactive}
+        href={`/${Locales.English}`}
       >
         EN
-      </button>
+      </Link>
     </span>
   );
 }

@@ -1,5 +1,5 @@
-query getNews {
-  newsPosts {
+query getNews($locale: I18NLocaleCode) {
+  newsPosts(locale: $locale) {
     data {
       id
       attributes {

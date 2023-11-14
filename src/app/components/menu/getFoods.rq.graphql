@@ -1,5 +1,5 @@
-query getFoods {
-  foods(sort: ["index:asc"]) {
+query getFoods($locale: I18NLocaleCode) {
+  foods(sort: ["index:asc"], locale: $locale) {
     data {
       id
       attributes {
