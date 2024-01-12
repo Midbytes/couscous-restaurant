@@ -9,6 +9,9 @@ import { useGetOpeningHoursQuery } from "@/app/utils/getOpeningHours.rq.generate
 import { useGetTablesQuery } from "./getTables.rq.generated";
 import GuestsInput from "../guestsInput/GuestsInput";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker/DatePicker";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
 
 //Same order as dayjs weekdays (https://day.js.org/docs/en/get-set/day)
 const weekDaysOrder = [
@@ -43,16 +46,52 @@ const themeOptions: ThemeOptions = createTheme({
 });
 
 export default function Reservation() {
-  const { data: tables } = useGetTablesQuery();
-  const { data: openingHours } = useGetOpeningHoursQuery();
-  const [reservationDate, setReservationDate] = useState<Dayjs | null>(dayjs());
-  const [slots, setSlots] = useState<Dayjs[]>([]);
   const [guestNumber, setGuestNumber] = useState<number>(1);
+  const [reservationDate, setReservationDate] = useState<Dayjs | null>(dayjs());
+
+  const startOfDay = reservationDate?.startOf("day").utc().format();
+
+  const endOfDay = reservationDate?.endOf("day").utc().format();
+
+  const { data: tables } = useGetTablesQuery({
+    guests: guestNumber,
+    reservationDay: startOfDay,
+    endOfDay: endOfDay,
+  });
+
+  const { data: openingHours } = useGetOpeningHoursQuery();
+  const [slots, setSlots] = useState<Dayjs[]>([]);
+
+  const SlotsByTableId = slots.map((slot) => {
+    const ids = tables?.tables?.data
+      .map((table) => {
+        const reservations = table.attributes?.reservations?.data;
+        if (!reservations) {
+          return table.id;
+        } else {
+          const reservationsOnTable = table.attributes?.reservations?.data.find(
+            (reservation) =>
+              dayjs(reservation.attributes?.reservationDate)
+                .utc()
+                .format("H:mm") === slot.utc().format("H:mm")
+          );
+          if (!reservationsOnTable) {
+            return table.id;
+          }
+        }
+      })
+      .filter((id) => id);
+
+    return {
+      slot: slot,
+      id: ids,
+    };
+  });
+  console.log(SlotsByTableId);
 
   const handleChangeGuests = (newGuestNumber: number) => {
     setGuestNumber(newGuestNumber);
   };
-  console.log(guestNumber);
 
   // Order tables from most seats to least seats
   const sortedTables =
