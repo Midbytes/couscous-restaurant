@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 import { GetFoodsQuery } from "./getFoods.rq.generated";
 import styles from "./menu.module.scss";
 import { Enum_Food_Course } from "@/generated/graphql";
-import { Unpacked } from "@/app/type/utils";
+import { Unpacked } from "@/app/types/utils";
 import { fixTitleFormat } from "@/app/utils/fixTitleFormat";
 import { formatPrice } from "@/app/utils/formatPrice";
 
