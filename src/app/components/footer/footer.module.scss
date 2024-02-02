@@ -1,0 +1,19 @@
+.container {
+  width: 100%;
+  background-color: var(--background-secondary);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 15%;
+  padding: 3rem 0;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding-left: 6rem;
+    gap: 2rem;
+  }
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  color: var(--main-title-color);
+}
