@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./navBar.module.scss";
 import Image from "next/image";
-import { NAV_ITEM } from "@/app/constant/navItem";
+import { NAV_ITEM } from "@/app/constants/navItem";
 import LinkNavigation from "../link/LinkNavigation";
 import LanguageSelector from "../languageSelector/LanguageSelector";
 import { Locales } from "../../../../i18n.config";
