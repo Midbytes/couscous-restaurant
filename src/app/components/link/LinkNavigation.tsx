@@ -2,7 +2,7 @@
 import React from "react";
 import styles from "./linkNavigation.module.scss";
 import useHash from "@/app/hooks/useHash";
-import { NavItem } from "@/app/type/navItem";
+import { NavItem } from "@/app/types/navItem";
 
 function LinkNavigation({ title, href }: NavItem) {
   const hash = useHash();

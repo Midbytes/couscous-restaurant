@@ -2,7 +2,7 @@
 import React, { useMemo } from "react";
 import styles from "./delicacies.module.scss";
 import { Enum_Delicacy_Type } from "@/generated/graphql";
-import { Unpacked } from "@/app/type/utils";
+import { Unpacked } from "@/app/types/utils";
 import { fixTitleFormat } from "@/app/utils/fixTitleFormat";
 import { sortByIndex } from "@/app/utils/sortByIndex";
 import { GetDelicaciesQuery } from "./getDelicacies.rq.generated";
