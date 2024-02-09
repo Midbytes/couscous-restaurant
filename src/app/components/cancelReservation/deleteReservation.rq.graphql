@@ -1,0 +1,11 @@
+mutation deleteReservation($id: ID!) {
+  deleteReservation(id: $id) {
+    data {
+      attributes {
+        guestsNumber: guestsNumber
+        reservationDate: reservationDate
+        guestName: guestName
+      }
+    }
+  }
+}
