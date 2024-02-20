@@ -41,21 +41,15 @@ function Footer() {
     {}
   );
 
-  const mappedOpeningTime = Object.entries(groupedByOpeningTime ?? {}).map(
-    ([key, value]) => {
-      const openingTime = (
-        <li className={styles.list}>{`${key} : ${value.join(", ")}`}</li>
-      );
-
-      return openingTime;
-    }
-  );
-
   return (
     <section className={styles.container}>
       <div className={styles.wrapper}>
         <h3>Opening Hours</h3>
-        {mappedOpeningTime}
+        {Object.entries(groupedByOpeningTime ?? {}).map(([key, value]) => (
+          <li className={styles.list} key={key}>{`${value.join(
+            ", "
+          )} : ${key}`}</li>
+        ))}
       </div>
       <div className={styles.wrapper}>
         <h3>Address </h3>
