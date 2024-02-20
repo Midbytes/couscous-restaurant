@@ -3,28 +3,59 @@ import React from "react";
 import styles from "./footer.module.scss";
 import { useGetOpeningHoursQuery } from "@/app/utils/getOpeningHours.rq.generated";
 import { useGetFooterQuery } from "./getFooter.rq.generated";
-import { getRestaurantStatus } from "@/app/utils/getRestaurantStatus";
-import dayjs from "dayjs";
+
+type Opening = Record<string, string[]>;
 
 function Footer() {
   const { data: openingHours } = useGetOpeningHoursQuery();
   const { data: footer } = useGetFooterQuery();
   const { address, phone, email } = footer?.footers?.data[0].attributes ?? {};
 
-  const today = dayjs().format("dddd");
-  const todayRestaurantStatus =
-    openingHours?.openingHours?.data.filter(
-      (item) => today === item.attributes?.day
-    ) ?? [];
+  const groupedByOpeningTime = openingHours?.openingHours?.data.reduce<Opening>(
+    (openings, { attributes }) => {
+      const { openingTime, closingTime, day, open } = attributes ?? {};
 
-  const status = getRestaurantStatus(todayRestaurantStatus);
+      if (!day || !openingTime || !closingTime) return openings;
+
+      if (!open) {
+        if (openings?.closed)
+          return { ...openings, Closed: [...openings.closed, day] };
+
+        return { ...openings, Closed: [day] };
+      }
+
+      const key = `${openingTime.slice(0, 5)}-${closingTime.slice(0, 5)}`;
+
+      if (openings?.[key]) {
+        return {
+          ...openings,
+          [key]: [...openings[key], day],
+        };
+      }
+
+      return {
+        ...openings,
+        [key]: [day],
+      };
+    },
+    {}
+  );
+
+  const mappedOpeningTime = Object.entries(groupedByOpeningTime ?? {}).map(
+    ([key, value]) => {
+      const openingTime = (
+        <li className={styles.list}>{`${key} : ${value.join(", ")}`}</li>
+      );
+
+      return openingTime;
+    }
+  );
 
   return (
     <section className={styles.container}>
       <div className={styles.wrapper}>
         <h3>Opening Hours</h3>
-        <h4>{today}</h4>
-        {status}
+        {mappedOpeningTime}
       </div>
       <div className={styles.wrapper}>
         <h3>Address </h3>
