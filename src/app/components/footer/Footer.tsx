@@ -8,8 +8,9 @@ type Opening = Record<string, string[]>;
 
 function Footer() {
   const { data: openingHours } = useGetOpeningHoursQuery();
-  const { data: footer } = useGetFooterQuery();
-  const { address, phone, email } = footer?.footers?.data[0].attributes ?? {};
+  const { data: footerQueries } = useGetFooterQuery();
+  const { address, phone, email } =
+    footerQueries?.footers?.data[0].attributes ?? {};
 
   const groupedByOpeningTime = openingHours?.openingHours?.data.reduce<Opening>(
     (openings, { attributes }) => {
@@ -42,24 +43,26 @@ function Footer() {
   );
 
   return (
-    <section className={styles.container}>
-      <div className={styles.wrapper}>
-        <h3>Opening Hours</h3>
-        {Object.entries(groupedByOpeningTime ?? {}).map(([key, value]) => (
-          <li className={styles.list} key={key}>{`${value.join(
-            ", "
-          )} : ${key}`}</li>
-        ))}
-      </div>
-      <div className={styles.wrapper}>
-        <h3>Address </h3>
-        <span>{address}</span>
-        <h4>Telephone </h4>
-        <span>{phone}</span>
-        <h4>e-mail</h4>
-        <span>{email}</span>
-      </div>
-    </section>
+    <footer className={styles.footer}>
+      <section className={styles.container}>
+        <div className={styles.wrapper}>
+          <h3>Opening Hours</h3>
+          {Object.entries(groupedByOpeningTime ?? {}).map(([key, value]) => (
+            <li className={styles.list} key={key}>{`${value.join(
+              ", "
+            )} : ${key}`}</li>
+          ))}
+        </div>
+        <div className={styles.wrapper}>
+          <h3>Address </h3>
+          <span>{address}</span>
+          <h4>Telephone </h4>
+          <span>{phone}</span>
+          <h4>e-mail</h4>
+          <span>{email}</span>
+        </div>
+      </section>
+    </footer>
   );
 }
 
