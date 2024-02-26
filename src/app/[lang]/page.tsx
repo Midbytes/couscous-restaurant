@@ -5,6 +5,7 @@ import Reservation from "../components/reservation/Reservation";
 import styles from "./page.module.scss";
 import MeetUs from "../components/meetUs";
 import { Locales } from "../../../i18n.config";
+import Footer from "../components/footer/Footer";
 
 export default function Home({
   params: { lang },
@@ -19,6 +20,7 @@ export default function Home({
        */}
       <Menu lang={lang} />
       <Delicacies lang={lang} />
+      <Footer />
     </main>
   );
 }

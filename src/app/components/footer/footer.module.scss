@@ -1,0 +1,31 @@
+.footer {
+  width: 100%;
+  background-color: var(--background-secondary);
+  display: flex;
+  justify-content: center;
+  .container {
+    max-width: 800px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem 0;
+    @media (max-width: 992px) {
+      max-width: 700px;
+    }
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: baseline;
+      gap: 1rem;
+    }
+  }
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    color: var(--main-title-color);
+  }
+  .list {
+    list-style-type: none;
+    padding: 5px;
+  }
+}

@@ -1,0 +1,11 @@
+query getFooter {
+  footers {
+    data {
+      attributes {
+        address
+        phone
+        email
+      }
+    }
+  }
+}
