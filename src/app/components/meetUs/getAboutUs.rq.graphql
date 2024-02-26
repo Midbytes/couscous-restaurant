@@ -1,5 +1,5 @@
-query getAboutUs {
-  aboutUs {
+query getAboutUs($locale: I18NLocaleCode) {
+  aboutUs(locale: $locale) {
     data {
       id
       attributes {

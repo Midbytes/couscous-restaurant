@@ -2,8 +2,11 @@
   width: 100%;
   list-style: none;
   padding: 0;
-  .course {
-    text-transform: capitalize;
+  .subtitle {
+    font-style: italic;
+    color: var(--subtitle-color);
+    font-weight: normal;
+    margin: 0 0 1.5em 0;
   }
   .foodListItem {
     padding: 0.2em 0 0.2em 0.5em;
@@ -11,7 +14,7 @@
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
-    align-items: flex-end;
+    align-items: baseline;
     span {
       padding-right: 0.5em;
     }

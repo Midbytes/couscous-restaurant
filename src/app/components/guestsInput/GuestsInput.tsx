@@ -5,7 +5,7 @@ import React from "react";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { GetTablesQuery } from "../reservation/getTables.rq.generated";
-import { Unpacked } from "@/app/type/utils";
+import { Unpacked } from "@/app/types/utils";
 
 type SortedTables = Unpacked<NonNullable<GetTablesQuery["tables"]>>["data"];
 
