@@ -4,8 +4,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import styles from "./reservation.module.scss";
 import dayjs, { Dayjs } from "dayjs";
-import { FormControl, ThemeOptions } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { FormControl } from "@mui/material";
 import { useGetOpeningHoursQuery } from "@/app/utils/getOpeningHours.rq.generated";
 import { useGetTablesQuery } from "./getTables.rq.generated";
 import GuestsInput from "../guestsInput/GuestsInput";
@@ -21,27 +20,6 @@ const weekDaysOrder = [
   "Friday",
   "Saturday",
 ];
-
-const themeOptions: ThemeOptions = createTheme({
-  palette: {
-    mode: "light",
-    primary: {
-      main: "#203881",
-    },
-    secondary: {
-      main: "#f5ead6",
-    },
-    background: {
-      default: "#fff",
-      paper: "#fff",
-    },
-    text: {
-      primary: "#222429",
-      secondary: "#203881",
-      disabled: "rgba(34,36,41,0.51)",
-    },
-  },
-});
 
 export default function Reservation() {
   const { data: tables } = useGetTablesQuery();
@@ -99,23 +77,21 @@ export default function Reservation() {
   return (
     sortedTables?.[0].attributes?.seats && (
       <section className={`container ${styles.reservation}`}>
-        <ThemeProvider theme={themeOptions}>
-          <FormControl className={styles.form}>
-            <GuestsInput sortedTables={sortedTables} />
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Reservation date"
-                disablePast
-                displayWeekNumber
-                value={reservationDate}
-                onChange={handleChangeDate}
-              />
-            </LocalizationProvider>
-            {slots.map((time, index) => {
-              return <button key={index}>{dayjs(time).format("H:mm")}</button>;
-            })}
-          </FormControl>
-        </ThemeProvider>
+        <FormControl className={styles.form}>
+          <GuestsInput sortedTables={sortedTables} />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Reservation date"
+              disablePast
+              displayWeekNumber
+              value={reservationDate}
+              onChange={handleChangeDate}
+            />
+          </LocalizationProvider>
+          {slots.map((time, index) => {
+            return <button key={index}>{dayjs(time).format("H:mm")}</button>;
+          })}
+        </FormControl>
       </section>
     )
   );

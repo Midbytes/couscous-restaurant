@@ -1,0 +1,10 @@
+query getReservation($id: ID!) {
+  reservation(id: $id) {
+    data {
+      id
+      attributes {
+        guestName
+      }
+    }
+  }
+}
