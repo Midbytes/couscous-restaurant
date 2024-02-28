@@ -1,10 +1,13 @@
-query getTables {
-  tables {
+query getTables($guests: Int, $reservationDay: DateTime, $endOfDay: DateTime) {
+  tables(sort: "seats", filters: { seats: { gte: $guests } }) {
     data {
+      id
       attributes {
         tableNumber
         seats
-        reservations {
+        reservations(
+          filters: { reservationDate: { gt: $reservationDay, lt: $endOfDay } }
+        ) {
           data {
             attributes {
               reservationDate
