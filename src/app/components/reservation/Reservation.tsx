@@ -4,15 +4,24 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import styles from "./reservation.module.scss";
 import dayjs, { Dayjs } from "dayjs";
-import { FormControl, ThemeOptions } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Button, FormControl, ThemeOptions } from "@mui/material";
+import {
+  createTheme,
+  SxProps,
+  Theme,
+  ThemeProvider,
+} from "@mui/material/styles";
 import { useGetOpeningHoursQuery } from "@/app/utils/getOpeningHours.rq.generated";
 import { useGetTablesQuery } from "./getTables.rq.generated";
 import GuestsInput from "../guestsInput/GuestsInput";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker/DatePicker";
 import utc from "dayjs/plugin/utc";
+import { CalendarMonth } from "@mui/icons-material";
+import ReservationModal, { Props } from "../modal/ReservationModal";
 
 dayjs.extend(utc);
+
+type ReservationDataProps = Pick<Props, "tableId" | "time">;
 
 //Same order as dayjs weekdays (https://day.js.org/docs/en/get-set/day)
 const weekDaysOrder = [
@@ -46,24 +55,51 @@ const themeOptions: ThemeOptions = createTheme({
   },
 });
 
+const popperSx: SxProps<Theme> = (theme) => ({
+  "& .MuiPaper-root": {
+    borderRadius: "1rem",
+    backgroundColor: theme.palette.secondary.main,
+  },
+  "& .MuiPickersCalendarHeader-root": {
+    color: "rgba(32, 56, 129, 1)",
+  },
+  "& .MuiDateCalendar-root": {
+    padding: "0.5rem",
+  },
+  "& .MuiSvgIcon-root": { color: "rgba(32, 56, 129, 1)" },
+  "& .MuiPickersSlideTransition-root": {
+    backgroundColor: "#f9f9fb",
+    borderRadius: "10px",
+  },
+});
+
 export default function Reservation() {
   const [guestNumber, setGuestNumber] = useState<number>(1);
   const [reservationDate, setReservationDate] = useState<Dayjs | null>(dayjs());
+  const [reservationData, setReservationData] = useState<ReservationDataProps>({
+    time: "",
+    tableId: [],
+  });
+  const [slots, setSlots] = useState<Dayjs[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
 
+  const { data: openingHours } = useGetOpeningHoursQuery();
   const startOfDay = reservationDate?.startOf("day").utc().format();
-
   const endOfDay = reservationDate?.endOf("day").utc().format();
-
   const { data: tables } = useGetTablesQuery({
     guests: guestNumber,
     reservationDay: startOfDay,
     endOfDay: endOfDay,
   });
 
-  const { data: openingHours } = useGetOpeningHoursQuery();
-  const [slots, setSlots] = useState<Dayjs[]>([]);
+  const handleChangeGuests = (newGuestNumber: number) => {
+    setGuestNumber(newGuestNumber);
+  };
+  const handleChangeDate = (newValue: Dayjs | null) =>
+    setReservationDate(newValue);
+  const handleClickModal = () => setIsOpen(!isOpen);
 
-  const SlotsByTableId = slots.map((slot) => {
+  const slotsByTableId = slots.map((slot) => {
     const ids = tables?.tables?.data
       .map((table) => {
         const reservations = table.attributes?.reservations?.data;
@@ -88,11 +124,7 @@ export default function Reservation() {
       id: ids,
     };
   });
-  console.log(SlotsByTableId);
-
-  const handleChangeGuests = (newGuestNumber: number) => {
-    setGuestNumber(newGuestNumber);
-  };
+  console.log(slotsByTableId);
 
   // Order tables from most seats to least seats
   const sortedTables =
@@ -138,34 +170,113 @@ export default function Reservation() {
     });
   }, [reservationDate, openingHours]);
 
-  const handleChangeDate = (newValue: Dayjs | null) =>
-    setReservationDate(newValue);
-
   return (
     sortedTables?.[0].attributes?.seats && (
-      <section className={`container ${styles.reservation}`}>
-        <ThemeProvider theme={themeOptions}>
-          <FormControl className={styles.form}>
-            <GuestsInput
-              sortedTables={sortedTables}
-              guestNumber={guestNumber}
-              onGuestNumberChange={handleChangeGuests}
-            />
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Reservation date"
-                disablePast
-                displayWeekNumber
-                value={reservationDate}
-                onChange={handleChangeDate}
+      <div className={styles.background}>
+        <section className={`container ${styles.reservation}`}>
+          <h2> Book a table</h2>
+          <span>Number of guests</span>
+          <ThemeProvider theme={themeOptions}>
+            <FormControl className={styles.form}>
+              <GuestsInput
+                sortedTables={sortedTables}
+                guestNumber={guestNumber}
+                onGuestNumberChange={handleChangeGuests}
               />
-            </LocalizationProvider>
-            {slots.map((time, index) => {
-              return <button key={index}>{dayjs(time).format("H:mm")}</button>;
-            })}
-          </FormControl>
-        </ThemeProvider>
-      </section>
+
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  label="Select a date"
+                  format="D MMM. YYYY"
+                  disablePast
+                  dayOfWeekFormatter={(day) => ` ${day + "."}`}
+                  value={reservationDate}
+                  onChange={handleChangeDate}
+                  showDaysOutsideCurrentMonth
+                  views={["day", "month"]}
+                  slots={{ openPickerIcon: CalendarMonth }}
+                  sx={(theme) => ({
+                    "& .MuiInputBase-root": {
+                      color: theme.palette.primary.main,
+                      backgroundColor: "rgba(227, 231, 243, 1)",
+                    },
+                    "& .MuiSvgIcon-root": { color: "rgba(32, 56, 129, 1)" },
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "rgba(32, 56, 129, 1)",
+                    },
+                  })}
+                  slotProps={{
+                    layout: {
+                      sx: { borderRadius: "4px" },
+                    },
+                    popper: {
+                      sx: popperSx,
+                    },
+                  }}
+                />
+              </LocalizationProvider>
+            </FormControl>
+          </ThemeProvider>
+
+          <div className={styles.slots}>
+            {slots.length > 0 ? (
+              slotsByTableId.map((data) => {
+                const time = data.slot.toISOString();
+                return (
+                  <button
+                    className={
+                      time === reservationData.time
+                        ? styles.selectedTime
+                        : styles.button
+                    }
+                    key={time}
+                    onClick={() =>
+                      setReservationData({
+                        time,
+                        tableId: data.id,
+                      })
+                    }
+                  >
+                    {dayjs(data.slot).format("H:mm")}
+                  </button>
+                );
+              })
+            ) : (
+              <h4>Restaurant closed</h4>
+            )}
+          </div>
+
+          {
+            <Button
+              disabled={!reservationData.time}
+              variant="contained"
+              onClick={handleClickModal}
+              sx={{
+                backgroundColor: "rgba(32, 56, 129, 1)",
+                width: "30%",
+                fontFamily: "var(--font-lora)",
+                letterSpacing: "0.1857em",
+                ":hover": {
+                  backgroundColor: "rgba(32, 56, 129, 1)",
+                  opacity: "0.8",
+                },
+              }}
+            >
+              Continue
+            </Button>
+          }
+
+          {isOpen && (
+            <ReservationModal
+              openModal
+              onClose={handleClickModal}
+              guests={guestNumber}
+              time={reservationData.time}
+              tableId={reservationData.tableId}
+            />
+          )}
+        </section>
+      </div>
     )
   );
 }

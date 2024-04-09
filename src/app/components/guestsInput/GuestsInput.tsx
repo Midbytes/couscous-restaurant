@@ -37,6 +37,12 @@ export default function GuestsInput({
   return (
     sortedTables[0].attributes?.seats && (
       <Input
+        sx={{
+          border: "1px solid var(--main-title-color)",
+          borderRadius: "4px",
+          backgroundColor: "rgba(227, 231, 243, 1)",
+        }}
+        disableUnderline
         error={
           guestNumber > sortedTables[0].attributes?.seats || guestNumber < 1
         }
@@ -44,25 +50,26 @@ export default function GuestsInput({
         inputProps={{
           max: sortedTables[0].attributes?.seats,
           min: 1,
-          style: { textAlign: "center" },
+          style: {
+            textAlign: "center",
+            color: "rgba(32, 56, 129, 1)",
+          },
         }}
         value={guestNumber}
         onChange={handleChangeGuests}
-        startAdornment={
-          <InputAdornment position="start">
-            <IconButton
-              onClick={() => handleIncrement("remove")}
-              disabled={guestNumber <= 1}
-            >
-              <RemoveIcon />
-            </IconButton>
-          </InputAdornment>
-        }
         endAdornment={
           <InputAdornment position="end">
             <IconButton
+              onClick={() => handleIncrement("remove")}
+              disabled={guestNumber <= 1}
+              sx={{ padding: "3px", color: "var(--main-title-color)" }}
+            >
+              <RemoveIcon />
+            </IconButton>
+            <IconButton
               onClick={() => handleIncrement("add")}
               disabled={guestNumber >= sortedTables[0].attributes?.seats}
+              sx={{ padding: "3px", color: "var(--main-title-color)" }}
             >
               <AddIcon />
             </IconButton>

@@ -1,0 +1,13 @@
+mutation CreateReservation($reservationData: ReservationInput!) {
+  createReservation(data: $reservationData) {
+    data {
+      id
+      attributes {
+        guestName
+        guestsNumber
+        reservationDate
+        guestEmail
+      }
+    }
+  }
+}
