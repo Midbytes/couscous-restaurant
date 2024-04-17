@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import styles from "./reservation.module.scss";
@@ -45,7 +45,7 @@ const themeOptions: ThemeOptions = createTheme({
     },
     background: {
       default: "#fff",
-      paper: "#fff",
+      paper: "#E3E7F3",
     },
     text: {
       primary: "#222429",
@@ -58,22 +58,23 @@ const themeOptions: ThemeOptions = createTheme({
 const popperSx: SxProps<Theme> = (theme) => ({
   "& .MuiPaper-root": {
     borderRadius: "1rem",
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.background.paper,
   },
   "& .MuiPickersCalendarHeader-root": {
-    color: "rgba(32, 56, 129, 1)",
+    color: theme.palette.primary.main,
   },
   "& .MuiDateCalendar-root": {
     padding: "0.5rem",
   },
-  "& .MuiSvgIcon-root": { color: "rgba(32, 56, 129, 1)" },
+  "& .MuiSvgIcon-root": { color: theme.palette.primary.main },
   "& .MuiPickersSlideTransition-root": {
-    backgroundColor: "#f9f9fb",
     borderRadius: "10px",
   },
 });
 
 export default function Reservation() {
+  const refId = useRef<HTMLElement>(null);
+
   const [guestNumber, setGuestNumber] = useState<number>(1);
   const [reservationDate, setReservationDate] = useState<Dayjs | null>(dayjs());
   const [reservationData, setReservationData] = useState<ReservationDataProps>({
@@ -101,27 +102,33 @@ export default function Reservation() {
 
   const slotsByTableId = slots.map((slot) => {
     const ids = tables?.tables?.data
-      .map((table) => {
+      .reduce<string[]>((acc, table) => {
         const reservations = table.attributes?.reservations?.data;
-        if (!reservations) {
-          return table.id;
-        } else {
-          const reservationsOnTable = table.attributes?.reservations?.data.find(
-            (reservation) =>
+        if (reservations.length === 0) {
+          console.log("hello", table.id, reservations);
+          return [...acc, table.id];
+        }
+
+        const reservationsOnTable = table.attributes?.reservations?.data.find(
+          (reservation) => {
+            return (
               dayjs(reservation.attributes?.reservationDate)
                 .utc()
-                .format("H:mm") === slot.utc().format("H:mm")
-          );
-          if (!reservationsOnTable) {
-            return table.id;
+                .format("H:mm") === slot.add(1, "day").utc().format("H:mm")
+            );
           }
+        );
+        if (!reservationsOnTable) {
+          return [...acc, table.id];
         }
-      })
+
+        return acc;
+      }, [])
       .filter((id) => id);
 
     return {
       slot: slot,
-      id: ids,
+      id: ids ?? [],
     };
   });
   console.log(slotsByTableId);
@@ -153,7 +160,7 @@ export default function Reservation() {
           ].attributes?.closingTime.slice(0, 5)}`;
           // adds reservation slots at 30 minute intervals
           for (
-            let current = dayjs(start);
+            let current = dayjs(start).utc().add(1, "hour");
             // TODO: add a kitchen closes time on Strapi and make it the end time instead of setting it 2 hours before close time
             // Last slot is two hours and 30 minutes before closing time
             current.isBefore(dayjs(end).subtract(2, "hour"));
@@ -173,9 +180,13 @@ export default function Reservation() {
   return (
     sortedTables?.[0].attributes?.seats && (
       <div className={styles.background}>
-        <section className={`container ${styles.reservation}`}>
+        <section
+          ref={refId}
+          className={`container ${styles.reservation}`}
+          id="tables"
+        >
           <h2> Book a table</h2>
-          <span>Number of guests</span>
+
           <ThemeProvider theme={themeOptions}>
             <FormControl className={styles.form}>
               <GuestsInput
@@ -198,11 +209,10 @@ export default function Reservation() {
                   sx={(theme) => ({
                     "& .MuiInputBase-root": {
                       color: theme.palette.primary.main,
-                      backgroundColor: "rgba(227, 231, 243, 1)",
                     },
-                    "& .MuiSvgIcon-root": { color: "rgba(32, 56, 129, 1)" },
+                    "& .MuiSvgIcon-root": { color: theme.palette.primary.main },
                     "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "rgba(32, 56, 129, 1)",
+                      borderColor: theme.palette.primary.main,
                     },
                   })}
                   slotProps={{

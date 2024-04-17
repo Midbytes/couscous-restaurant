@@ -22,7 +22,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "50%",
+  width: "80%",
   bgcolor: "background.paper",
   border: "0.5px solid #203881",
   borderRadius: "10px",
@@ -85,6 +85,7 @@ function ReservationModal({
         //tables:tableId
       },
     });
+    console.log(result);
 
     onClose();
   };
