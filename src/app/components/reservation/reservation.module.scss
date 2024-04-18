@@ -32,6 +32,18 @@
     font-weight: 500;
     font-size: 1.5rem;
   }
+  @media (max-width: 660px) {
+    height: 176px;
+  }
+  @media (max-width: 555px) {
+    height: 224px;
+  }
+  @media (max-width: 445px) {
+    height: 275px;
+  }
+  @media (max-width: 340) {
+    height: 416px;
+  }
 
   .button {
     align-items: center;
