@@ -16,9 +16,8 @@ export default function Home({
     <main className={styles.main}>
       <News lang={lang} />
       <MeetUs lang={lang} />
-      {/*       <Reservation />
-       */}
       <Menu lang={lang} />
+      <Reservation />
       <Delicacies lang={lang} />
       <Footer />
     </main>

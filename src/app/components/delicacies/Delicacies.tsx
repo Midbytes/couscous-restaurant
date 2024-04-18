@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import styles from "./delicacies.module.scss";
 import { Enum_Delicacy_Type } from "@/generated/graphql";
 import { Unpacked } from "@/app/types/utils";
@@ -20,6 +20,8 @@ const order = [
 ];
 
 function Delicacies({ data }: { data: GetDelicaciesQuery }) {
+  const refId = useRef<HTMLElement>(null);
+
   const { delicacies } = data ?? {};
 
   const delicacyTypes = useMemo(
@@ -47,7 +49,7 @@ function Delicacies({ data }: { data: GetDelicaciesQuery }) {
   const orderedSections = sortByOrder<Enum_Delicacy_Type>(sections, order);
 
   return (
-    <section className="container">
+    <section ref={refId} className="container" id="delicacies">
       <h2>Our Delicacies</h2>
 
       {delicacyTypes && orderedSections.length > 0

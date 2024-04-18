@@ -1,0 +1,43 @@
+.backBtn {
+  border: none;
+  background: none;
+  font-weight: 600;
+  color: var(--main-title-color);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  p {
+    text-align: center;
+    font-style: italic;
+    font-weight: 400;
+    padding: 0.5rem;
+  }
+  h3 {
+    margin: 0;
+    padding: 1rem;
+  }
+  span {
+    padding: 0.2rem;
+    font-weight: 600;
+  }
+}
+.forms {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+.btn {
+  padding-top: 1rem;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}

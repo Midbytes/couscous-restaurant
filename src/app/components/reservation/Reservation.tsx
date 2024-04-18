@@ -1,18 +1,27 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import styles from "./reservation.module.scss";
 import dayjs, { Dayjs } from "dayjs";
-import { FormControl, ThemeOptions } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Button, FormControl, ThemeOptions } from "@mui/material";
+import {
+  createTheme,
+  SxProps,
+  Theme,
+  ThemeProvider,
+} from "@mui/material/styles";
 import { useGetOpeningHoursQuery } from "@/app/utils/getOpeningHours.rq.generated";
 import { useGetTablesQuery } from "./getTables.rq.generated";
 import GuestsInput from "../guestsInput/GuestsInput";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker/DatePicker";
 import utc from "dayjs/plugin/utc";
+import { CalendarMonth } from "@mui/icons-material";
+import ReservationModal, { Props } from "../modal/ReservationModal";
 
 dayjs.extend(utc);
+
+type ReservationDataProps = Pick<Props, "tableId" | "time">;
 
 //Same order as dayjs weekdays (https://day.js.org/docs/en/get-set/day)
 const weekDaysOrder = [
@@ -36,7 +45,7 @@ const themeOptions: ThemeOptions = createTheme({
     },
     background: {
       default: "#fff",
-      paper: "#fff",
+      paper: "#E3E7F3",
     },
     text: {
       primary: "#222429",
@@ -46,64 +55,82 @@ const themeOptions: ThemeOptions = createTheme({
   },
 });
 
+const popperSx: SxProps<Theme> = (theme) => ({
+  "& .MuiPaper-root": {
+    borderRadius: "1rem",
+    backgroundColor: theme.palette.background.paper,
+  },
+  "& .MuiPickersCalendarHeader-root": {
+    color: theme.palette.primary.main,
+  },
+  "& .MuiDateCalendar-root": {
+    padding: "0.5rem",
+  },
+  "& .MuiSvgIcon-root": { color: theme.palette.primary.main },
+  "& .MuiPickersSlideTransition-root": {
+    borderRadius: "10px",
+  },
+});
+
 export default function Reservation() {
+  const refId = useRef<HTMLElement>(null);
+
   const [guestNumber, setGuestNumber] = useState<number>(1);
   const [reservationDate, setReservationDate] = useState<Dayjs | null>(dayjs());
+  const [reservationData, setReservationData] = useState<ReservationDataProps>({
+    time: "",
+    tableId: [],
+  });
+  const [slots, setSlots] = useState<Dayjs[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
 
+  const { data: openingHours } = useGetOpeningHoursQuery();
   const startOfDay = reservationDate?.startOf("day").utc().format();
-
   const endOfDay = reservationDate?.endOf("day").utc().format();
-
   const { data: tables } = useGetTablesQuery({
     guests: guestNumber,
     reservationDay: startOfDay,
     endOfDay: endOfDay,
   });
 
-  const { data: openingHours } = useGetOpeningHoursQuery();
-  const [slots, setSlots] = useState<Dayjs[]>([]);
+  const handleChangeGuests = (newGuestNumber: number) => {
+    setGuestNumber(newGuestNumber);
+  };
+  const handleChangeDate = (newValue: Dayjs | null) =>
+    setReservationDate(newValue);
+  const handleClickModal = () => setIsOpen(!isOpen);
 
-  const SlotsByTableId = slots.map((slot) => {
+  const slotsByTableId = slots.map((slot) => {
     const ids = tables?.tables?.data
-      .map((table) => {
+      .reduce<string[]>((acc, table) => {
         const reservations = table.attributes?.reservations?.data;
-        if (!reservations) {
-          return table.id;
-        } else {
-          const reservationsOnTable = table.attributes?.reservations?.data.find(
-            (reservation) =>
+        if (reservations.length === 0) {
+          console.log("hello", table.id, reservations);
+          return [...acc, table.id];
+        }
+
+        const reservationsOnTable = table.attributes?.reservations?.data.find(
+          (reservation) => {
+            return (
               dayjs(reservation.attributes?.reservationDate)
                 .utc()
-                .format("H:mm") === slot.utc().format("H:mm")
-          );
-          if (!reservationsOnTable) {
-            return table.id;
+                .format("H:mm") === slot.add(1, "day").utc().format("H:mm")
+            );
           }
+        );
+        if (!reservationsOnTable) {
+          return [...acc, table.id];
         }
-      })
+
+        return acc;
+      }, [])
       .filter((id) => id);
 
     return {
       slot: slot,
-      id: ids,
+      id: ids ?? [],
     };
   });
-  console.log(SlotsByTableId);
-
-  const handleChangeGuests = (newGuestNumber: number) => {
-    setGuestNumber(newGuestNumber);
-  };
-
-  // Order tables from most seats to least seats
-  const sortedTables =
-    tables?.tables?.data &&
-    tables.tables.data.sort((a, b) => {
-      return a.attributes?.seats && b.attributes?.seats
-        ? a.attributes?.seats <= b.attributes?.seats
-          ? 1
-          : -1
-        : 0;
-    });
 
   useEffect(() => {
     const date = dayjs(reservationDate).toISOString().slice(0, 10);
@@ -138,34 +165,113 @@ export default function Reservation() {
     });
   }, [reservationDate, openingHours]);
 
-  const handleChangeDate = (newValue: Dayjs | null) =>
-    setReservationDate(newValue);
-
   return (
-    sortedTables?.[0].attributes?.seats && (
-      <section className={`container ${styles.reservation}`}>
+    <div className={styles.background}>
+      <section
+        ref={refId}
+        className={`container ${styles.reservation}`}
+        id="tables"
+      >
+        <h2> Book a table</h2>
+
         <ThemeProvider theme={themeOptions}>
           <FormControl className={styles.form}>
             <GuestsInput
-              sortedTables={sortedTables}
               guestNumber={guestNumber}
               onGuestNumberChange={handleChangeGuests}
             />
+
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
-                label="Reservation date"
+                label="Select a date"
+                format="D MMM. YYYY"
                 disablePast
-                displayWeekNumber
+                dayOfWeekFormatter={(day) => ` ${day + "."}`}
                 value={reservationDate}
                 onChange={handleChangeDate}
+                showDaysOutsideCurrentMonth
+                views={["day", "month"]}
+                slots={{ openPickerIcon: CalendarMonth }}
+                sx={(theme) => ({
+                  "& .MuiInputBase-root": {
+                    color: theme.palette.primary.main,
+                  },
+                  "& .MuiSvgIcon-root": { color: theme.palette.primary.main },
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: theme.palette.primary.main,
+                  },
+                })}
+                slotProps={{
+                  layout: {
+                    sx: { borderRadius: "4px" },
+                  },
+                  popper: {
+                    sx: popperSx,
+                  },
+                }}
               />
             </LocalizationProvider>
-            {slots.map((time, index) => {
-              return <button key={index}>{dayjs(time).format("H:mm")}</button>;
-            })}
           </FormControl>
         </ThemeProvider>
+
+        <div className={styles.slots}>
+          {slots.length > 0 ? (
+            slotsByTableId.map((data) => {
+              const time = data.slot.toISOString();
+              return (
+                <button
+                  className={
+                    time === reservationData.time
+                      ? styles.selectedTime
+                      : styles.button
+                  }
+                  key={time}
+                  onClick={() =>
+                    setReservationData({
+                      time,
+                      tableId: data.id,
+                    })
+                  }
+                >
+                  {dayjs(data.slot).format("H:mm")}
+                </button>
+              );
+            })
+          ) : (
+            <h4>Restaurant closed</h4>
+          )}
+        </div>
+
+        {
+          <Button
+            disabled={!reservationData.time}
+            variant="contained"
+            onClick={handleClickModal}
+            sx={{
+              backgroundColor: "rgba(32, 56, 129, 1)",
+              width: "30%",
+              fontFamily: "var(--font-lora)",
+              letterSpacing: "0.1857em",
+              ":hover": {
+                backgroundColor: "rgba(32, 56, 129, 1)",
+                opacity: "0.8",
+              },
+            }}
+          >
+            Continue
+          </Button>
+        }
+
+        {isOpen && (
+          <ReservationModal
+            openModal
+            onClose={handleClickModal}
+            guests={guestNumber}
+            time={reservationData.time}
+            tableId={reservationData.tableId}
+          />
+        )}
       </section>
-    )
+    </div>
   );
 }

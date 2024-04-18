@@ -1,11 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./news.module.scss";
 import Glider from "react-glider";
 import Image from "next/image";
 import { GetNewsQuery } from "./getNews.rq.generated";
 
 function News({ data }: { data: GetNewsQuery }) {
+  const refId = useRef<HTMLElement>(null);
+
   const [arrowPrevious, setArrowPrevious] = useState<HTMLButtonElement | null>(
     null
   );
@@ -16,7 +18,7 @@ function News({ data }: { data: GetNewsQuery }) {
     // Only render when there are news
     data?.newsPosts &&
     data?.newsPosts?.data.length > 0 && (
-      <article className={styles.container}>
+      <article ref={refId} className={styles.container} id="news">
         {/* Only show carousel when there are multiple news */}
         {multiNews && (
           //TODO: add ARIA accessibility

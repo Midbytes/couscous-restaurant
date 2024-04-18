@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import { GetFoodsQuery } from "./getFoods.rq.generated";
 import styles from "./menu.module.scss";
 import { Enum_Food_Course } from "@/generated/graphql";
@@ -14,6 +14,8 @@ type Food = NonNullable<
 };
 
 export default function Menu({ data }: { data: GetFoodsQuery }) {
+  const refId = useRef<HTMLElement>(null);
+
   const { foods, courseCategories } = data ?? {};
 
   // Prevent useless runs of reduce for performance
@@ -39,7 +41,7 @@ export default function Menu({ data }: { data: GetFoodsQuery }) {
   if (courseCategories.data.length === 0) return;
 
   return (
-    <section className="container">
+    <section ref={refId} className="container" id="menu">
       <h2>Our Menu</h2>
       {courseCategories.data.map(({ attributes }) => {
         const { label, name, description } = attributes ?? {};
