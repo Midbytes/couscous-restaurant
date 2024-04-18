@@ -131,18 +131,6 @@ export default function Reservation() {
       id: ids ?? [],
     };
   });
-  console.log(slotsByTableId);
-
-  // Order tables from most seats to least seats
-  const sortedTables =
-    tables?.tables?.data &&
-    tables.tables.data.sort((a, b) => {
-      return a.attributes?.seats && b.attributes?.seats
-        ? a.attributes?.seats <= b.attributes?.seats
-          ? 1
-          : -1
-        : 0;
-    });
 
   useEffect(() => {
     const date = dayjs(reservationDate).toISOString().slice(0, 10);
@@ -160,7 +148,7 @@ export default function Reservation() {
           ].attributes?.closingTime.slice(0, 5)}`;
           // adds reservation slots at 30 minute intervals
           for (
-            let current = dayjs(start).utc().add(1, "hour");
+            let current = dayjs(start);
             // TODO: add a kitchen closes time on Strapi and make it the end time instead of setting it 2 hours before close time
             // Last slot is two hours and 30 minutes before closing time
             current.isBefore(dayjs(end).subtract(2, "hour"));
@@ -178,115 +166,112 @@ export default function Reservation() {
   }, [reservationDate, openingHours]);
 
   return (
-    sortedTables?.[0].attributes?.seats && (
-      <div className={styles.background}>
-        <section
-          ref={refId}
-          className={`container ${styles.reservation}`}
-          id="tables"
-        >
-          <h2> Book a table</h2>
+    <div className={styles.background}>
+      <section
+        ref={refId}
+        className={`container ${styles.reservation}`}
+        id="tables"
+      >
+        <h2> Book a table</h2>
 
-          <ThemeProvider theme={themeOptions}>
-            <FormControl className={styles.form}>
-              <GuestsInput
-                sortedTables={sortedTables}
-                guestNumber={guestNumber}
-                onGuestNumberChange={handleChangeGuests}
-              />
-
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="Select a date"
-                  format="D MMM. YYYY"
-                  disablePast
-                  dayOfWeekFormatter={(day) => ` ${day + "."}`}
-                  value={reservationDate}
-                  onChange={handleChangeDate}
-                  showDaysOutsideCurrentMonth
-                  views={["day", "month"]}
-                  slots={{ openPickerIcon: CalendarMonth }}
-                  sx={(theme) => ({
-                    "& .MuiInputBase-root": {
-                      color: theme.palette.primary.main,
-                    },
-                    "& .MuiSvgIcon-root": { color: theme.palette.primary.main },
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: theme.palette.primary.main,
-                    },
-                  })}
-                  slotProps={{
-                    layout: {
-                      sx: { borderRadius: "4px" },
-                    },
-                    popper: {
-                      sx: popperSx,
-                    },
-                  }}
-                />
-              </LocalizationProvider>
-            </FormControl>
-          </ThemeProvider>
-
-          <div className={styles.slots}>
-            {slots.length > 0 ? (
-              slotsByTableId.map((data) => {
-                const time = data.slot.toISOString();
-                return (
-                  <button
-                    className={
-                      time === reservationData.time
-                        ? styles.selectedTime
-                        : styles.button
-                    }
-                    key={time}
-                    onClick={() =>
-                      setReservationData({
-                        time,
-                        tableId: data.id,
-                      })
-                    }
-                  >
-                    {dayjs(data.slot).format("H:mm")}
-                  </button>
-                );
-              })
-            ) : (
-              <h4>Restaurant closed</h4>
-            )}
-          </div>
-
-          {
-            <Button
-              disabled={!reservationData.time}
-              variant="contained"
-              onClick={handleClickModal}
-              sx={{
-                backgroundColor: "rgba(32, 56, 129, 1)",
-                width: "30%",
-                fontFamily: "var(--font-lora)",
-                letterSpacing: "0.1857em",
-                ":hover": {
-                  backgroundColor: "rgba(32, 56, 129, 1)",
-                  opacity: "0.8",
-                },
-              }}
-            >
-              Continue
-            </Button>
-          }
-
-          {isOpen && (
-            <ReservationModal
-              openModal
-              onClose={handleClickModal}
-              guests={guestNumber}
-              time={reservationData.time}
-              tableId={reservationData.tableId}
+        <ThemeProvider theme={themeOptions}>
+          <FormControl className={styles.form}>
+            <GuestsInput
+              guestNumber={guestNumber}
+              onGuestNumberChange={handleChangeGuests}
             />
+
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Select a date"
+                format="D MMM. YYYY"
+                disablePast
+                dayOfWeekFormatter={(day) => ` ${day + "."}`}
+                value={reservationDate}
+                onChange={handleChangeDate}
+                showDaysOutsideCurrentMonth
+                views={["day", "month"]}
+                slots={{ openPickerIcon: CalendarMonth }}
+                sx={(theme) => ({
+                  "& .MuiInputBase-root": {
+                    color: theme.palette.primary.main,
+                  },
+                  "& .MuiSvgIcon-root": { color: theme.palette.primary.main },
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderColor: theme.palette.primary.main,
+                  },
+                })}
+                slotProps={{
+                  layout: {
+                    sx: { borderRadius: "4px" },
+                  },
+                  popper: {
+                    sx: popperSx,
+                  },
+                }}
+              />
+            </LocalizationProvider>
+          </FormControl>
+        </ThemeProvider>
+
+        <div className={styles.slots}>
+          {slots.length > 0 ? (
+            slotsByTableId.map((data) => {
+              const time = data.slot.toISOString();
+              return (
+                <button
+                  className={
+                    time === reservationData.time
+                      ? styles.selectedTime
+                      : styles.button
+                  }
+                  key={time}
+                  onClick={() =>
+                    setReservationData({
+                      time,
+                      tableId: data.id,
+                    })
+                  }
+                >
+                  {dayjs(data.slot).format("H:mm")}
+                </button>
+              );
+            })
+          ) : (
+            <h4>Restaurant closed</h4>
           )}
-        </section>
-      </div>
-    )
+        </div>
+
+        {
+          <Button
+            disabled={!reservationData.time}
+            variant="contained"
+            onClick={handleClickModal}
+            sx={{
+              backgroundColor: "rgba(32, 56, 129, 1)",
+              width: "30%",
+              fontFamily: "var(--font-lora)",
+              letterSpacing: "0.1857em",
+              ":hover": {
+                backgroundColor: "rgba(32, 56, 129, 1)",
+                opacity: "0.8",
+              },
+            }}
+          >
+            Continue
+          </Button>
+        }
+
+        {isOpen && (
+          <ReservationModal
+            openModal
+            onClose={handleClickModal}
+            guests={guestNumber}
+            time={reservationData.time}
+            tableId={reservationData.tableId}
+          />
+        )}
+      </section>
+    </div>
   );
 }
